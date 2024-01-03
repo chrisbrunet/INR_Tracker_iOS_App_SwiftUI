@@ -9,11 +9,13 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
+@MainActor
 class UserService {
     @Published var currentUser: User?
     
     static let shared = UserService()
     
+    @MainActor
     func fetchCurrentUser() async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
