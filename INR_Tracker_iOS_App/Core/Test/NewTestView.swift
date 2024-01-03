@@ -14,13 +14,14 @@ struct NewTestView: View {
     @Environment(\.dismiss) var dismiss
     @State private var reading = ""
     @State private var notes = ""
+    @State private var date = Date()
     
     var body: some View {
         NavigationStack{
             ScrollView {
                 VStack (alignment: .center, spacing: 24){
                     
-                    DatePicker(selection: /*@START_MENU_TOKEN@*/.constant(Date())/*@END_MENU_TOKEN@*/, label: { /*@START_MENU_TOKEN@*/Text("Date")/*@END_MENU_TOKEN@*/ })
+                    DatePicker(selection: $date, displayedComponents: .date, label: { Text("Test Date") })
                         .padding()
                     
                     HStack {
@@ -45,8 +46,13 @@ struct NewTestView: View {
                     
                     Button {
                         Task {
-                            try await viewModel.createTest(date: Date(), reading: Double(reading)!, notes: notes)
-                            dismiss()
+                            do {
+                                try await viewModel.createTest(date: date, reading: Double(reading)!, notes: notes)
+                                try await viewModel.fetchTests()
+                                dismiss()
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
                         }
                     } label: {
                         HStack {

@@ -33,7 +33,7 @@ struct TableView: View {
                 .fullScreenCover(isPresented: $showNewTestView, onDismiss: {
                     Task {
                         do {
-                            viewModel.tests = try await viewModel.fetchTests()
+                            try await viewModel.fetchTests()
                         } catch {
                             print("Failed to fetch tests with error: \(error.localizedDescription)")
                         }

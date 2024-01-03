@@ -24,8 +24,7 @@ class TableViewModel: ObservableObject {
         setupSubscribers()
         
         Task {
-            tests = try await fetchTests()
-            isLoading = false
+            try await fetchAndUpdateTests()
         }
     }
     
@@ -35,7 +34,7 @@ class TableViewModel: ObservableObject {
         }.store(in: &cancellables)
     }
     
-    func fetchTests() async throws -> [Test] {
+    func fetchTests() async throws {
         print("fetch tests called")
         let uid = Auth.auth().currentUser?.uid
         let snapshot = try await Firestore.firestore()
@@ -43,7 +42,16 @@ class TableViewModel: ObservableObject {
             .whereField("userId", isEqualTo: uid!)
             .getDocuments()
         let tests = snapshot.documents.compactMap({ try? $0.data(as: Test.self) })
-        return tests
+        self.tests = tests
+    }
+    
+    func fetchAndUpdateTests() async throws {
+        do {
+            try await fetchTests() // Fetch tests
+            isLoading = false // Update loading state
+        } catch {
+            print("Failed to fetch tests with error: \(error.localizedDescription)")
+        }
     }
     
     func createTest(date: Date, reading: Double, notes: String) async throws {
@@ -53,7 +61,7 @@ class TableViewModel: ObservableObject {
             let encodedTest = try Firestore.Encoder().encode(test)
             try await Firestore.firestore().collection("tests").document(test.id).setData(encodedTest)
             print("Test Created: \(test)")
-            tests = try await fetchTests()
+            try await fetchAndUpdateTests()
         } catch {
             print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
         }
