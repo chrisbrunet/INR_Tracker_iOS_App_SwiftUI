@@ -20,8 +20,9 @@ struct TableView: View {
                 ScrollView {
                     if let tests = viewModel.tests {
                         List {
-                            ForEach(tests) { test in
-                                TableRowView(reading: String(test.reading), date: "date")
+                            ForEach(tests, id: \.id) { test in
+                                let formatted = formattedDate(test.date)
+                                TableRowView(reading: String(test.reading), date: formatted)
                             }
                         }
                         .listStyle(PlainListStyle())
@@ -30,15 +31,7 @@ struct TableView: View {
                         Text("No Tests")
                     }
                 }
-                .fullScreenCover(isPresented: $showNewTestView, onDismiss: {
-                    Task {
-                        do {
-                            try await viewModel.fetchTests()
-                        } catch {
-                            print("Failed to fetch tests with error: \(error.localizedDescription)")
-                        }
-                    }
-                }, content: {
+                .fullScreenCover(isPresented: $showNewTestView, content: {
                     NewTestView(viewModel: viewModel)
                 })
                 .toolbar {
@@ -63,6 +56,12 @@ struct TableView: View {
             }
         }
     }
+}
+
+func formattedDate(_ date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MMM dd yyyy"
+    return dateFormatter.string(from: date)
 }
 
 #Preview {

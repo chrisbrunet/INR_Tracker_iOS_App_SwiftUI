@@ -41,14 +41,15 @@ class TableViewModel: ObservableObject {
             .collection("tests")
             .whereField("userId", isEqualTo: uid!)
             .getDocuments()
-        let tests = snapshot.documents.compactMap({ try? $0.data(as: Test.self) })
+        var tests = snapshot.documents.compactMap({ try? $0.data(as: Test.self) })
+        tests.sort { $0.date > $1.date }
         self.tests = tests
     }
     
     func fetchAndUpdateTests() async throws {
         do {
-            try await fetchTests() // Fetch tests
-            isLoading = false // Update loading state
+            try await fetchTests()
+            isLoading = false
         } catch {
             print("Failed to fetch tests with error: \(error.localizedDescription)")
         }

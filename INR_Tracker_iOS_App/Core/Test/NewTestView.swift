@@ -60,7 +60,6 @@ struct NewTestView: View {
         Task {
             do {
                 try await viewModel.createTest(date: date, reading: Double(reading)!, notes: notes)
-                try await viewModel.fetchTests()
                 dismiss()
             } catch {
                 print("Error: \(error.localizedDescription)")
