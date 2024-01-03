@@ -20,8 +20,6 @@ class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     private var cancellables = Set<AnyCancellable>()
     
-    static let shared = AuthViewModel()
-        
     init(){
         setupSubscribers()
         self.userSession = Auth.auth().currentUser

@@ -46,11 +46,14 @@
 		A4DBF76F2B44AB3000BCDD64 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A4DBF76E2B44AB3000BCDD64 /* FirebaseRemoteConfigSwift */; };
 		A4DBF7712B44AB3000BCDD64 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A4DBF7702B44AB3000BCDD64 /* FirebaseStorage */; };
 		A4DBF7732B44AB3000BCDD64 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = A4DBF7722B44AB3000BCDD64 /* FirebaseStorageCombine-Community */; };
+<<<<<<< HEAD
 		A4DBF7762B44B7D200BCDD64 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF7752B44B7D200BCDD64 /* TableView.swift */; };
 		A4DBF7792B44BE2000BCDD64 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF7782B44BE2000BCDD64 /* ChartView.swift */; };
 		A4DBF77B2B44C05300BCDD64 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF77A2B44C05300BCDD64 /* TableViewModel.swift */; };
 		A4DBF77D2B44C06500BCDD64 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF77C2B44C06500BCDD64 /* Test.swift */; };
 		A4DBF77F2B45076900BCDD64 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF77E2B45076900BCDD64 /* UserService.swift */; };
+=======
+>>>>>>> parent of c58e80d (table and chart views initialized. trying to connect tableViewModel to current user to extract data)
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,11 +70,14 @@
 		A4CADA3F2B44A79100E329D8 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		A4CADA412B44A7B900E329D8 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		A4CADA452B44A88600E329D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		A4DBF7752B44B7D200BCDD64 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		A4DBF7782B44BE2000BCDD64 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		A4DBF77A2B44C05300BCDD64 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		A4DBF77C2B44C06500BCDD64 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		A4DBF77E2B45076900BCDD64 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+=======
+>>>>>>> parent of c58e80d (table and chart views initialized. trying to connect tableViewModel to current user to extract data)
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,8 +179,6 @@
 				A4CADA432B44A7EB00E329D8 /* Root */,
 				A4CADA3A2B44A74700E329D8 /* Authentication */,
 				A4CADA372B44A72600E329D8 /* Profile */,
-				A4DBF7742B44B7A700BCDD64 /* Table */,
-				A4DBF7772B44BE0E00BCDD64 /* Chart */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -190,12 +194,28 @@
 		A4CADA3A2B44A74700E329D8 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				A4CADA412B44A7B900E329D8 /* AuthViewModel.swift */,
+				A4CADA3C2B44A75A00E329D8 /* ViewModel */,
+				A4CADA3B2B44A75100E329D8 /* View */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		A4CADA3B2B44A75100E329D8 /* View */ = {
+			isa = PBXGroup;
+			children = (
 				A4CADA3D2B44A76E00E329D8 /* LoginView.swift */,
 				A4CADA3F2B44A79100E329D8 /* RegistrationView.swift */,
 				A4DBF77E2B45076900BCDD64 /* UserService.swift */,
 			);
-			path = Authentication;
+			path = View;
+			sourceTree = "<group>";
+		};
+		A4CADA3C2B44A75A00E329D8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A4CADA412B44A7B900E329D8 /* AuthViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		A4CADA432B44A7EB00E329D8 /* Root */ = {
@@ -210,26 +230,8 @@
 			isa = PBXGroup;
 			children = (
 				A4CADA452B44A88600E329D8 /* User.swift */,
-				A4DBF77C2B44C06500BCDD64 /* Test.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		A4DBF7742B44B7A700BCDD64 /* Table */ = {
-			isa = PBXGroup;
-			children = (
-				A4DBF7752B44B7D200BCDD64 /* TableView.swift */,
-				A4DBF77A2B44C05300BCDD64 /* TableViewModel.swift */,
-			);
-			path = Table;
-			sourceTree = "<group>";
-		};
-		A4DBF7772B44BE0E00BCDD64 /* Chart */ = {
-			isa = PBXGroup;
-			children = (
-				A4DBF7782B44BE2000BCDD64 /* ChartView.swift */,
-			);
-			path = Chart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,15 +339,11 @@
 			files = (
 				A4DBF77F2B45076900BCDD64 /* UserService.swift in Sources */,
 				A4CADA3E2B44A76E00E329D8 /* LoginView.swift in Sources */,
-				A4DBF7762B44B7D200BCDD64 /* TableView.swift in Sources */,
 				A4CADA332B44A6E600E329D8 /* SettingsRowView.swift in Sources */,
-				A4DBF77B2B44C05300BCDD64 /* TableViewModel.swift in Sources */,
 				A4CADA312B44A6C200E329D8 /* InputView.swift in Sources */,
 				A4CADA402B44A79100E329D8 /* RegistrationView.swift in Sources */,
-				A4DBF77D2B44C06500BCDD64 /* Test.swift in Sources */,
 				A4CADA422B44A7B900E329D8 /* AuthViewModel.swift in Sources */,
 				A4CADA462B44A88600E329D8 /* User.swift in Sources */,
-				A4DBF7792B44BE2000BCDD64 /* ChartView.swift in Sources */,
 				A4CADA392B44A73500E329D8 /* ProfileView.swift in Sources */,
 				A4CADA222B44A64700E329D8 /* ContentView.swift in Sources */,
 				A4CADA202B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift in Sources */,
