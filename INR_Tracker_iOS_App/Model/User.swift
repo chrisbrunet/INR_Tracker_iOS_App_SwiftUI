@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
 struct User: Identifiable, Codable {
-    let id: String
+    @DocumentID var uid: String?
     let fullName: String
     let email: String
+    
+    var id: String {
+        return uid ?? NSUUID().uuidString
+    }
     
     var initials: String {
         let formatter = PersonNameComponentsFormatter()

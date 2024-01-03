@@ -50,6 +50,7 @@
 		A4DBF7792B44BE2000BCDD64 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF7782B44BE2000BCDD64 /* ChartView.swift */; };
 		A4DBF77B2B44C05300BCDD64 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF77A2B44C05300BCDD64 /* TableViewModel.swift */; };
 		A4DBF77D2B44C06500BCDD64 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF77C2B44C06500BCDD64 /* Test.swift */; };
+		A4DBF77F2B45076900BCDD64 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DBF77E2B45076900BCDD64 /* UserService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		A4DBF7782B44BE2000BCDD64 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		A4DBF77A2B44C05300BCDD64 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		A4DBF77C2B44C06500BCDD64 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		A4DBF77E2B45076900BCDD64 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 				A4CADA412B44A7B900E329D8 /* AuthViewModel.swift */,
 				A4CADA3D2B44A76E00E329D8 /* LoginView.swift */,
 				A4CADA3F2B44A79100E329D8 /* RegistrationView.swift */,
+				A4DBF77E2B45076900BCDD64 /* UserService.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4DBF77F2B45076900BCDD64 /* UserService.swift in Sources */,
 				A4CADA3E2B44A76E00E329D8 /* LoginView.swift in Sources */,
 				A4DBF7762B44B7D200BCDD64 /* TableView.swift in Sources */,
 				A4CADA332B44A6E600E329D8 /* SettingsRowView.swift in Sources */,

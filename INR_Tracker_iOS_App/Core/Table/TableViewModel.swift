@@ -12,7 +12,7 @@ import Combine
 
 class TableViewModel: ObservableObject {
     
-    @Published var userSession: FirebaseAuth.User?
+    @Published var currentUser: User?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -21,8 +21,8 @@ class TableViewModel: ObservableObject {
     }
     
     private func setupSubscribers(){
-        AuthViewModel.shared.$currentUser.sink { [weak self] user in
-            self?.userSession = user
+        UserService.shared.$currentUser.sink { [weak self] user in
+            self?.currentUser = user
         }.store(in: &cancellables)
     }
     
