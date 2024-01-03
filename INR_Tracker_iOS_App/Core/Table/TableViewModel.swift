@@ -33,9 +33,10 @@ class TableViewModel: ObservableObject {
     
     func createTest(date: Date, reading: Double, notes: String) async throws {
         do {
-            let test = Test(id: UUID().uuidString, userId: currentUser?.id, date: date, reading: reading, notes: notes)
+            guard let userId = self.currentUser?.uid else { return }
+            let test = Test(userId: userId, date: date, reading: reading, notes: notes)
             let encodedUser = try Firestore.Encoder().encode(test)
-            try await Firestore.firestore().collection("tests").document(test.id).setData(encodedUser)
+            try await Firestore.firestore().collection("tests").document().setData(encodedUser)
         } catch {
             print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
         }

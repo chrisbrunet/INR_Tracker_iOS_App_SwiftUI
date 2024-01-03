@@ -6,11 +6,17 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
 struct Test: Codable, Identifiable {
-    let id: String
-    let userId: String
+    
+    @DocumentID var testId: String?
+    let userId: User.ID
     let date: Date
     let reading: Double
     let notes: String
+    
+    var id: String {
+        return testId ?? NSUUID().uuidString
+    }
 }

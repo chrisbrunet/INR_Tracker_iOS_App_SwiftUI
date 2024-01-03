@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import Combine
 
 protocol AuthenticationFormProtocol {
     var formIsValid: Bool { get }
@@ -17,15 +18,22 @@ protocol AuthenticationFormProtocol {
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    private var cancellables = Set<AnyCancellable>()
     
     static let shared = AuthViewModel()
         
     init(){
+        setupSubscribers()
         self.userSession = Auth.auth().currentUser
-        
         Task {
             try await UserService.shared.fetchCurrentUser()
         }
+    }
+    
+    private func setupSubscribers(){
+        UserService.shared.$currentUser.sink { [weak self] user in
+            self?.currentUser = user
+        }.store(in: &cancellables)
     }
     
     func signIn(withEmail email: String, password: String) async throws {
@@ -33,6 +41,7 @@ class AuthViewModel: ObservableObject {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
             try await UserService.shared.fetchCurrentUser()
+            setupSubscribers()
         } catch {
             print("DEBUG: Failed to log in with error: \(error.localizedDescription)")
         }
@@ -44,6 +53,7 @@ class AuthViewModel: ObservableObject {
             self.userSession = result.user
             try await self.uploadUserData(email: email, fullname: fullname, id: result.user.uid)
             try await UserService.shared.fetchCurrentUser()
+            setupSubscribers()
         } catch {
             print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
         }
@@ -67,12 +77,4 @@ class AuthViewModel: ObservableObject {
         guard let encodedUser = try? Firestore.Encoder().encode(user) else { return }
         try await Firestore.firestore().collection("users").document(id).setData(encodedUser)
     }
-    
-//    func fetchUser() async {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
-//        self.currentUser = try? snapshot.data(as: User.self)
-//        
-//        print("Current User is: \(self.currentUser)")
-//    }
 }
