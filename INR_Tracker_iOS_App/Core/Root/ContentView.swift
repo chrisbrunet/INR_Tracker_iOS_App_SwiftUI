@@ -13,26 +13,10 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if viewModel.userSession == nil {
-                LoginView()
+            if viewModel.userSession != nil {
+                ProfileView()
             } else {
-                TabView{
-                    ChartView()
-                        .tabItem() {
-                            Image(systemName: "chart.bar")
-                            Text("Chart")
-                        }
-                    TableView()
-                        .tabItem() {
-                            Image(systemName: "list.bullet")
-                            Text("Table")
-                        }
-                    ProfileView()
-                        .tabItem() {
-                            Image(systemName: "person.2.fill")
-                            Text("Profile")
-                        }
-                }
+                LoginView()
             }
         }
     }
