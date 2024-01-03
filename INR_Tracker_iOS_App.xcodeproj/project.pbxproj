@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A4375FA32B45B00900B7DCB1 /* TableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA22B45B00900B7DCB1 /* TableRowView.swift */; };
 		A4375FA62B45C37600B7DCB1 /* NewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA52B45C37600B7DCB1 /* NewTestView.swift */; };
+		A4375FA82B45EF2900B7DCB1 /* FormattedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA72B45EF2900B7DCB1 /* FormattedTest.swift */; };
 		A4CADA202B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA1F2B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift */; };
 		A4CADA222B44A64700E329D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA212B44A64700E329D8 /* ContentView.swift */; };
 		A4CADA242B44A64800E329D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4CADA232B44A64800E329D8 /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 /* Begin PBXFileReference section */
 		A4375FA22B45B00900B7DCB1 /* TableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowView.swift; sourceTree = "<group>"; };
 		A4375FA52B45C37600B7DCB1 /* NewTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTestView.swift; sourceTree = "<group>"; };
+		A4375FA72B45EF2900B7DCB1 /* FormattedTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedTest.swift; sourceTree = "<group>"; };
 		A4CADA1C2B44A64700E329D8 /* INR_Tracker_iOS_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = INR_Tracker_iOS_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CADA1F2B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INR_Tracker_iOS_AppApp.swift; sourceTree = "<group>"; };
 		A4CADA212B44A64700E329D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			children = (
 				A4CADA452B44A88600E329D8 /* User.swift */,
 				A4DBF77C2B44C06500BCDD64 /* Test.swift */,
+				A4375FA72B45EF2900B7DCB1 /* FormattedTest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				A4CADA422B44A7B900E329D8 /* AuthViewModel.swift in Sources */,
 				A4CADA462B44A88600E329D8 /* User.swift in Sources */,
 				A4DBF7792B44BE2000BCDD64 /* ChartView.swift in Sources */,
+				A4375FA82B45EF2900B7DCB1 /* FormattedTest.swift in Sources */,
 				A4CADA392B44A73500E329D8 /* ProfileView.swift in Sources */,
 				A4CADA222B44A64700E329D8 /* ContentView.swift in Sources */,
 				A4CADA202B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift in Sources */,

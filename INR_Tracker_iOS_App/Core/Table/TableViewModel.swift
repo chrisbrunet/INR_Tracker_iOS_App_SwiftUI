@@ -17,14 +17,17 @@ class TableViewModel: ObservableObject {
     @Published var isLoading = true
     
     var tests: [Test]?
+    var chartData: [FormattedTest]?
     
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        print("Initializing Table View Model")
         setupSubscribers()
         
         Task {
             try await fetchAndUpdateTests()
+            prepareChartData()
         }
     }
     
@@ -74,5 +77,11 @@ class TableViewModel: ObservableObject {
     
     func deleteTest(){
         
+    }
+    
+    func prepareChartData(){
+        self.chartData = tests!.compactMap { test in
+            return FormattedTest(date: test.date, reading: test.reading)
+        }
     }
 }
