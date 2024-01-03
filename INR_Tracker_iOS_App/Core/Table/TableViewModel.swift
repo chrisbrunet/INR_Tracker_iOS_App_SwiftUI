@@ -14,9 +14,9 @@ import Combine
 class TableViewModel: ObservableObject {
     
     @Published var currentUser: User?
+    @Published var isLoading = true
     
     var tests: [Test]?
-    var testSnapshot: QuerySnapshot?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -24,7 +24,8 @@ class TableViewModel: ObservableObject {
         setupSubscribers()
         
         Task {
-            await fetchTests()
+            tests = try await fetchTests()
+            isLoading = false
         }
     }
     
@@ -34,20 +35,25 @@ class TableViewModel: ObservableObject {
         }.store(in: &cancellables)
     }
     
-    func fetchTests() async {
+    func fetchTests() async throws -> [Test] {
         print("fetch tests called")
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let snapshot = try? await Firestore.firestore().collection("tests").getDocuments() else { return }
-        testSnapshot = snapshot
-        print(snapshot)
+        let uid = Auth.auth().currentUser?.uid
+        let snapshot = try await Firestore.firestore()
+            .collection("tests")
+            .whereField("userId", isEqualTo: uid!)
+            .getDocuments()
+        let tests = snapshot.documents.compactMap({ try? $0.data(as: Test.self) })
+        return tests
     }
     
     func createTest(date: Date, reading: Double, notes: String) async throws {
         do {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             let test = Test(userId: uid, date: date, reading: reading, notes: notes)
-            let encodedUser = try Firestore.Encoder().encode(test)
-            try await Firestore.firestore().collection("tests").document(test.id).setData(encodedUser)
+            let encodedTest = try Firestore.Encoder().encode(test)
+            try await Firestore.firestore().collection("tests").document(test.id).setData(encodedTest)
+            print("Test Created: \(test)")
+            tests = try await fetchTests()
         } catch {
             print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
         }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A4375FA32B45B00900B7DCB1 /* TableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA22B45B00900B7DCB1 /* TableRowView.swift */; };
+		A4375FA62B45C37600B7DCB1 /* NewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA52B45C37600B7DCB1 /* NewTestView.swift */; };
 		A4CADA202B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA1F2B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift */; };
 		A4CADA222B44A64700E329D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA212B44A64700E329D8 /* ContentView.swift */; };
 		A4CADA242B44A64800E329D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4CADA232B44A64800E329D8 /* Assets.xcassets */; };
@@ -53,6 +55,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A4375FA22B45B00900B7DCB1 /* TableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowView.swift; sourceTree = "<group>"; };
+		A4375FA52B45C37600B7DCB1 /* NewTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTestView.swift; sourceTree = "<group>"; };
 		A4CADA1C2B44A64700E329D8 /* INR_Tracker_iOS_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = INR_Tracker_iOS_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CADA1F2B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INR_Tracker_iOS_AppApp.swift; sourceTree = "<group>"; };
 		A4CADA212B44A64700E329D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,6 +114,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A4375FA42B45C35300B7DCB1 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				A4375FA52B45C37600B7DCB1 /* NewTestView.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 		A4CADA132B44A64700E329D8 = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +173,7 @@
 			children = (
 				A4CADA302B44A6C200E329D8 /* InputView.swift */,
 				A4CADA322B44A6E600E329D8 /* SettingsRowView.swift */,
+				A4375FA22B45B00900B7DCB1 /* TableRowView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -172,6 +185,7 @@
 				A4CADA3A2B44A74700E329D8 /* Authentication */,
 				A4CADA372B44A72600E329D8 /* Profile */,
 				A4DBF7742B44B7A700BCDD64 /* Table */,
+				A4375FA42B45C35300B7DCB1 /* Test */,
 				A4DBF7772B44BE0E00BCDD64 /* Chart */,
 			);
 			path = Core;
@@ -338,6 +352,8 @@
 				A4DBF77B2B44C05300BCDD64 /* TableViewModel.swift in Sources */,
 				A4CADA312B44A6C200E329D8 /* InputView.swift in Sources */,
 				A4CADA402B44A79100E329D8 /* RegistrationView.swift in Sources */,
+				A4375FA32B45B00900B7DCB1 /* TableRowView.swift in Sources */,
+				A4375FA62B45C37600B7DCB1 /* NewTestView.swift in Sources */,
 				A4DBF77D2B44C06500BCDD64 /* Test.swift in Sources */,
 				A4CADA422B44A7B900E329D8 /* AuthViewModel.swift in Sources */,
 				A4CADA462B44A88600E329D8 /* User.swift in Sources */,
