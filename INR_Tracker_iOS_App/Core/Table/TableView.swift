@@ -9,10 +9,14 @@ import SwiftUI
 
 struct TableView: View {
     
-    @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var viewModel = TableViewModel()
 
     var body: some View {
-        Text("Table View")
+        Button {
+            
+        } label: {
+            Text("Fetch Tests")
+        }
     }
 }
 
