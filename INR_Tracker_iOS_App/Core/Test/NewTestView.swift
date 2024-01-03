@@ -1,10 +1,3 @@
-//
-//  NewTestView.swift
-//  INR_Tracker_iOS_App
-//
-//  Created by Chris Brunet on 2024-01-03.
-//
-
 import SwiftUI
 
 struct NewTestView: View {
@@ -17,74 +10,67 @@ struct NewTestView: View {
     @State private var date = Date()
     
     var body: some View {
-        NavigationStack{
-            ScrollView {
-                VStack (alignment: .center, spacing: 24){
+        NavigationView {
+            VStack {
+                Form {
+                    Section(header: Text("Test Date")) {
+                        HStack {
+                            DatePicker("", selection: $date, displayedComponents: .date)
+                                .labelsHidden()
+                            Spacer()
+                        }
+                    }
                     
-                    DatePicker(selection: $date, displayedComponents: .date, label: { Text("Test Date") })
-                        .padding()
-                    
-                    HStack {
-                        Text("Reading")
-                        
-                        Spacer()
-                        
+                    Section(header: Text("Reading")) {
                         TextField("ex. 2.5", text: $reading)
-                            .border(Color.black)
+                            .keyboardType(.decimalPad)
                     }
-                    .padding()
                     
-                    HStack {
-                        Text("Notes")
-                        
-                        Spacer()
-                        
-                        TextField("", text: $notes)
-                            .border(Color.black)
+                    Section(header: Text("Notes")) {
+                        TextField("Add notes here", text: $notes)
                     }
-                    .padding()
                     
-                    Button {
-                        Task {
-                            do {
-                                try await viewModel.createTest(date: date, reading: Double(reading)!, notes: notes)
-                                try await viewModel.fetchTests()
-                                dismiss()
-                            } catch {
-                                print("Error: \(error.localizedDescription)")
+                    Section {
+                        Button(action: createTest) {
+                            HStack {
+                                Spacer()
+                                Text("CREATE TEST")
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                Spacer()
                             }
                         }
-                    } label: {
-                        HStack {
-                            Text("CREATE TEST")
-                                .fontWeight(.semibold)
-                            
-                            Image(systemName: "arrow.right")
-                        }
-                        .foregroundColor(.white)
-                        .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                        .listRowBackground(Color.blue)
                     }
-                    .background(Color(.systemBlue))
-                    .cornerRadius(10)
-                    .padding(.top, 24)
-
                 }
+                .listStyle(GroupedListStyle())
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text("Cancel")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                    }
-                }
+            .navigationBarTitle("New Test", displayMode: .inline)
+            .navigationBarItems(leading:
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Cancel")
+                        .fontWeight(.semibold)
+                })
+        }
+    }
+    
+    func createTest() {
+        Task {
+            do {
+                try await viewModel.createTest(date: date, reading: Double(reading)!, notes: notes)
+                try await viewModel.fetchTests()
+                dismiss()
+            } catch {
+                print("Error: \(error.localizedDescription)")
             }
         }
     }
 }
 
-#Preview {
-    NewTestView(viewModel: TableViewModel())
+struct NewTestView_Previews: PreviewProvider {
+    static var previews: some View {
+        NewTestView(viewModel: TableViewModel())
+    }
 }
