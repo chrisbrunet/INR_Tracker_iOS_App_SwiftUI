@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FormattedTest: Identifiable {
+struct ChartPoint: Identifiable {
     var date: Date
     var reading: Double
     var animate: Bool = false

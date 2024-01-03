@@ -16,8 +16,8 @@ class TableViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var isLoading = true
     
-    var tests: [Test]?
-    var chartData: [FormattedTest]?
+    @Published var tests: [Test]?
+    @Published var chartData: [ChartPoint]?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -52,6 +52,7 @@ class TableViewModel: ObservableObject {
     func fetchAndUpdateTests() async throws {
         do {
             try await fetchTests()
+            prepareChartData()
             isLoading = false
         } catch {
             print("Failed to fetch tests with error: \(error.localizedDescription)")
@@ -81,7 +82,7 @@ class TableViewModel: ObservableObject {
     
     func prepareChartData(){
         self.chartData = tests!.compactMap { test in
-            return FormattedTest(date: test.date, reading: test.reading)
+            return ChartPoint(date: test.date, reading: test.reading)
         }
     }
 }

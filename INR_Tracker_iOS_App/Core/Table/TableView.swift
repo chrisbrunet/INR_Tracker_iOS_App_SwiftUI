@@ -18,9 +18,9 @@ struct TableView: View {
                 ProgressView()
             } else {
                 ScrollView {
-                    if let tests = viewModel.tests {
+                    if let data = viewModel.tests {
                         List {
-                            ForEach(tests, id: \.id) { test in
+                            ForEach(data, id: \.id) { test in
                                 let formatted = formattedDate(test.date)
                                 TableRowView(reading: String(test.reading), date: formatted)
                             }
