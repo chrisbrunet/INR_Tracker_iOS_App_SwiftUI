@@ -96,7 +96,7 @@ struct UpdateTestView: View {
         
         Task {
             do {
-                try await viewModel.updateTest(test: selectedTest!)
+                try await viewModel.updateTest(test: updatedTest)
                 dismiss()
             } catch {
                 print("Error: \(error.localizedDescription)")

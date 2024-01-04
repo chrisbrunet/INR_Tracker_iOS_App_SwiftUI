@@ -66,6 +66,15 @@ class DataService: ObservableObject {
     
     func updateTest(test: Test) async throws {
         print("CONSOLE-DEBUG: Updating Test: \(test)")
+        let encodedTest = try Firestore.Encoder().encode(test)
+        try await Firestore.firestore()
+            .collection("tests")
+            .document(test.id)
+            .updateData(["reading": test.reading,
+                         "notes": test.notes,
+                         "date": test.date])
+        
+        await fetchTests()
     }
     
     func deleteTest(test: Test) async throws {
