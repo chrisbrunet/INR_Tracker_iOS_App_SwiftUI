@@ -40,7 +40,7 @@ struct TableView: View {
                 }
             }
             .fullScreenCover(isPresented: $showNewView, content: {
-                if (selectedTest != nil) && isUpdateView == true {
+                if (selectedTest != nil) || isUpdateView == true {
                     UpdateTestView(selectedTest: $selectedTest)
                 } else {
                     NewTestView()
