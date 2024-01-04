@@ -48,7 +48,7 @@ class AuthService{
             
             let user = User(fullName: fullname, email: email)
             let encodedUser = try Firestore.Encoder().encode(user)
-            try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
+            try await Firestore.firestore().collection("users").document(self.userSession!.uid).setData(encodedUser)
             
             await fetchUser()
         } catch {
@@ -60,6 +60,7 @@ class AuthService{
         do {
             try Auth.auth().signOut()
             self.userSession = nil
+            self.currentUser = nil
         } catch {
             print("DEBUG: Failed to sign out with error: \(error.localizedDescription)")
         }
