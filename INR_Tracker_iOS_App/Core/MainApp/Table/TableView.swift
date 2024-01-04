@@ -18,58 +18,54 @@ struct TableView: View {
 
     var body: some View {
         NavigationStack{
-//            if viewModel.isLoading {
-//                ProgressView()
-//            } else {
-                ScrollView {
-                    if let data = viewModel.tests {
-                        List {
-                            ForEach(data) { test in
-                                let formattedDate = formattedDate(test.date)
-                                TableRowView(reading: String(test.reading), date: formattedDate)
-                                    .onTapGesture {
-                                        selectedTest = test
-                                        showNewView.toggle() // Show the update view
-                                        showUpdateTestView = true // Set update view mode
-                                    }
-                            }
+            ScrollView {
+                if let data = viewModel.tests {
+                    List {
+                        ForEach(data) { test in
+                            let formattedDate = formattedDate(test.date)
+                            TableRowView(reading: String(test.reading), date: formattedDate)
+                                .onTapGesture {
+                                    selectedTest = test
+                                    showNewView.toggle() // Show the update view
+                                    showUpdateTestView = true // Set update view mode
+                                }
                         }
-                        .listStyle(PlainListStyle())
-                        .frame(height: UIScreen.main.bounds.height)
-                    } else {
-                        Text("No Tests")
                     }
+                    .listStyle(PlainListStyle())
+                    .frame(height: UIScreen.main.bounds.height)
+                } else {
+                    Text("No Tests")
                 }
-                .fullScreenCover(isPresented: $showNewView, content: {
-                    if showUpdateTestView {
-                        UpdateTestView(selectedTest: $selectedTest)
-                    } else {
-                        NewTestView()
-                    }
-                })
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Text("INR Tests")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            showNewView.toggle()
-                        } label: {
-                            HStack{
-                                Text("New Test")
-                                
-                                Image(systemName: "square.and.pencil.circle.fill")
-                            }
+            }
+            .fullScreenCover(isPresented: $showNewView, content: {
+                if showUpdateTestView {
+                    UpdateTestView(selectedTest: $selectedTest)
+                } else {
+                    NewTestView()
+                }
+            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text("INR Tests")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showNewView.toggle()
+                    } label: {
+                        HStack{
+                            Text("New Test")
+                            
+                            Image(systemName: "square.and.pencil.circle.fill")
                         }
                     }
                 }
             }
         }
     }
-//}
+}
 
 func formattedDate(_ date: Date) -> String {
     let dateFormatter = DateFormatter()

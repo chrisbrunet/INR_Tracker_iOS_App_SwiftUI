@@ -14,7 +14,6 @@ import Combine
 class TableViewModel: ObservableObject {
     
     @Published var tests: [Test]?
-    @Published var chartData: [ChartPoint]?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -31,11 +30,5 @@ class TableViewModel: ObservableObject {
         DataService.shared.$tests
             .assign(to: \.tests, on: self)
             .store(in: &cancellables)
-    }
-    
-    func prepareChartData(){
-        self.chartData = tests!.compactMap { test in
-            return ChartPoint(date: test.date, reading: test.reading)
-        }
     }
 }
