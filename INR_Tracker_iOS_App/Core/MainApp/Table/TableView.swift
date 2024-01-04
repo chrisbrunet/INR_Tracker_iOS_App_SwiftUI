@@ -12,8 +12,7 @@ struct TableView: View {
     @StateObject var viewModel = TableViewModel()
     
     @State var showNewView = false
-    @State private var showNewTestView = false
-    @State private var showUpdateTestView = false
+    @State var isUpdateView = false
     @State var selectedTest: Test?
 
     var body: some View {
@@ -26,19 +25,22 @@ struct TableView: View {
                             TableRowView(reading: String(test.reading), date: formattedDate)
                                 .onTapGesture {
                                     selectedTest = test
-                                    showNewView.toggle() // Show the update view
-                                    showUpdateTestView = true // Set update view mode
+                                    isUpdateView = true
+                                    showNewView.toggle()
                                 }
                         }
                     }
                     .listStyle(PlainListStyle())
                     .frame(height: UIScreen.main.bounds.height)
+                    .onAppear {
+                        selectedTest = data[0]
+                    }
                 } else {
                     Text("No Tests")
                 }
             }
             .fullScreenCover(isPresented: $showNewView, content: {
-                if showUpdateTestView {
+                if let _ = selectedTest {
                     UpdateTestView(selectedTest: $selectedTest)
                 } else {
                     NewTestView()
@@ -53,6 +55,8 @@ struct TableView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
+                        selectedTest = nil
+                        isUpdateView = false
                         showNewView.toggle()
                     } label: {
                         HStack{

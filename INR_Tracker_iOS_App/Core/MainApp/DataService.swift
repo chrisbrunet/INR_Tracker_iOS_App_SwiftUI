@@ -36,7 +36,6 @@ class DataService: ObservableObject {
     
     func fetchTests() async {
         print("CONSOLE-DEBUG: DataService fetchTests called")
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let uid = self.userSession?.uid else { return }
         guard let snapshot = try? await Firestore.firestore()
             .collection("tests")
@@ -53,7 +52,6 @@ class DataService: ObservableObject {
     func createTest(date: Date, reading: Double, notes: String) async throws {
         do {
             print("CONSOLE-DEBUG: DataService createTest called")
-//            guard let uid = Auth.auth().currentUser?.uid else { return }
             guard let uid = self.userSession?.uid else { return }
             let test = Test(userId: uid, date: date, reading: reading, notes: notes)
             let encodedTest = try Firestore.Encoder().encode(test)
@@ -66,11 +64,11 @@ class DataService: ObservableObject {
         }
     }
     
-    func updateTest(){
-        
+    func updateTest(test: Test) async throws {
+        print("CONSOLE-DEBUG: Updating Test: \(test)")
     }
     
-    func deleteTest(){
-        
+    func deleteTest(test: Test) async throws {
+        print("CONSOLE-DEBUG: Deleting Test")
     }
 }

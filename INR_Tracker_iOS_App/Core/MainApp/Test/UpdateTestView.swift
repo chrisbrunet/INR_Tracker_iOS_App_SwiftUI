@@ -9,15 +9,16 @@ import SwiftUI
 
 struct UpdateTestView: View {
     
-    @StateObject var viewModel = TestViewModel()
+    @StateObject var viewModel = UpdateTestViewModel()
     
     @Binding var selectedTest: Test?
     
-    @Environment(\.dismiss) var dismiss
-    
+    // States to hold values
+    @State private var testDate = Date()
     @State private var reading = ""
     @State private var notes = ""
-    @State private var date = Date()
+        
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationView {
@@ -25,7 +26,7 @@ struct UpdateTestView: View {
                 Form {
                     Section(header: Text("Test Date")) {
                         HStack {
-                            DatePicker("", selection: $date, displayedComponents: .date)
+                            DatePicker("", selection: $testDate, displayedComponents: .date)
                                 .labelsHidden()
                             Spacer()
                         }
@@ -41,7 +42,7 @@ struct UpdateTestView: View {
                     }
                     
                     Section {
-                        Button(action: viewModel.updateTest) {
+                        Button(action: updateTest) {
                             HStack {
                                 Spacer()
                                 Text("UPDATE TEST")
@@ -54,7 +55,7 @@ struct UpdateTestView: View {
                     }
                     
                     Section {
-                        Button(action: viewModel.deleteTest) {
+                        Button(action: deleteTest) {
                             HStack {
                                 Spacer()
                                 Text("DELETE TEST")
@@ -68,14 +69,49 @@ struct UpdateTestView: View {
                 }
                 .listStyle(GroupedListStyle())
             }
-            .navigationBarTitle("New Test", displayMode: .inline)
+            .navigationBarTitle("Update Test", displayMode: .inline)
             .navigationBarItems(leading:
                 Button {
                     dismiss()
                 } label: {
                     Text("Cancel")
                         .fontWeight(.semibold)
-                })
+                }
+            )
+            .onAppear {
+                if let selectedTest = selectedTest {
+                    testDate = selectedTest.date
+                    reading = String(selectedTest.reading)
+                    notes = selectedTest.notes
+                }
+            }
+        }
+    }
+    
+    func updateTest() {
+        guard var updatedTest = selectedTest else { return }
+        updatedTest.date = testDate
+        updatedTest.reading = Double(reading) ?? 0.0
+        updatedTest.notes = notes
+        
+        Task {
+            do {
+                try await viewModel.updateTest(test: selectedTest!)
+                dismiss()
+            } catch {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func deleteTest() {
+        Task {
+            do {
+                try await viewModel.deleteTest(test: selectedTest!)
+                dismiss()
+            } catch {
+                print("Error: \(error.localizedDescription)")
+            }
         }
     }
 }

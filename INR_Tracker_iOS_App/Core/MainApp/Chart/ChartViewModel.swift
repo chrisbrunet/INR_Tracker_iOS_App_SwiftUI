@@ -19,6 +19,8 @@ class ChartViewModel: ObservableObject {
     @Published var ninetyDaysData: [ChartPoint]?
     @Published var oneYearData: [ChartPoint]?
     
+    static let shared = ChartViewModel()
+    
 //    @Published var chartMin: Double?
 //    @Published var chartMax: Double?
 

@@ -11,9 +11,9 @@ import FirebaseFirestoreSwift
 struct Test: Codable, Identifiable {
     @DocumentID var testId: String?
     let userId: String
-    let date: Date
-    let reading: Double
-    let notes: String
+    var date: Date
+    var reading: Double
+    var notes: String
     
     var id: String {
         return testId ?? NSUUID().uuidString

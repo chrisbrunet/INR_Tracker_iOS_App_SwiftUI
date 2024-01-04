@@ -2,12 +2,9 @@ import SwiftUI
 
 struct NewTestView: View {
     
-    @StateObject var viewModel = TestViewModel()
+    @StateObject var viewModel = NewTestViewModel()
     
     @Environment(\.dismiss) var dismiss
-    @State private var reading = ""
-    @State private var notes = ""
-    @State private var date = Date()
     
     var body: some View {
         NavigationView {
@@ -15,19 +12,19 @@ struct NewTestView: View {
                 Form {
                     Section(header: Text("Test Date")) {
                         HStack {
-                            DatePicker("", selection: $date, displayedComponents: .date)
+                            DatePicker("", selection: $viewModel.date, displayedComponents: .date)
                                 .labelsHidden()
                             Spacer()
                         }
                     }
                     
                     Section(header: Text("Reading")) {
-                        TextField("ex. 2.5", text: $reading)
+                        TextField("ex. 2.5", text: $viewModel.reading)
                             .keyboardType(.decimalPad)
                     }
                     
                     Section(header: Text("Notes")) {
-                        TextField("Add notes here", text: $notes)
+                        TextField("Add notes here", text: $viewModel.notes)
                     }
                     
                     Section {
@@ -41,7 +38,9 @@ struct NewTestView: View {
                             }
                         }
                         .listRowBackground(Color.blue)
+                        .disabled(!formIsValid)
                     }
+                    .opacity(formIsValid ? 1.0 : 0.5)
                 }
                 .listStyle(GroupedListStyle())
             }
@@ -52,19 +51,26 @@ struct NewTestView: View {
                 } label: {
                     Text("Cancel")
                         .fontWeight(.semibold)
-                })
+                }
+            )
         }
     }
     
     func createTest() {
         Task {
             do {
-                try await viewModel.createTest(date: date, reading: Double(reading)!, notes: notes)
+                try await viewModel.createTest()
                 dismiss()
             } catch {
                 print("Error: \(error.localizedDescription)")
             }
         }
+    }
+}
+
+extension NewTestView: TestFormProtocol {
+    var formIsValid: Bool {
+        return !viewModel.reading.isEmpty
     }
 }
 
