@@ -10,6 +10,7 @@ import SwiftUI
 struct TableView: View {
     
     @StateObject var viewModel = TableViewModel()
+    
     @State var showNewView = false
     @State private var showNewTestView = false
     @State private var showUpdateTestView = false
@@ -17,9 +18,9 @@ struct TableView: View {
 
     var body: some View {
         NavigationStack{
-            if viewModel.isLoading {
-                ProgressView()
-            } else {
+//            if viewModel.isLoading {
+//                ProgressView()
+//            } else {
                 ScrollView {
                     if let data = viewModel.tests {
                         List {
@@ -41,9 +42,9 @@ struct TableView: View {
                 }
                 .fullScreenCover(isPresented: $showNewView, content: {
                     if showUpdateTestView {
-                        UpdateTestView(viewModel: viewModel, selectedTest: $selectedTest)
+                        UpdateTestView(selectedTest: $selectedTest)
                     } else {
-                        NewTestView(viewModel: viewModel)
+                        NewTestView()
                     }
                 })
                 .toolbar {
@@ -68,7 +69,7 @@ struct TableView: View {
             }
         }
     }
-}
+//}
 
 func formattedDate(_ date: Date) -> String {
     let dateFormatter = DateFormatter()

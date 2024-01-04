@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import Combine
 
+@MainActor
 class ProfileViewModel: ObservableObject {
     @Published var currentUser: User?
     
@@ -16,7 +17,7 @@ class ProfileViewModel: ObservableObject {
     
     init() {
         setupSubscribers()
-        print("CONSOLE-DEBUG: ProfileViewModel init() currentUser on is \(String(describing: currentUser?.id))")
+        print("CONSOLE-DEBUG: ProfileViewModel init() currentUser is \(String(describing: currentUser?.id))")
     }
     
     private func setupSubscribers() {

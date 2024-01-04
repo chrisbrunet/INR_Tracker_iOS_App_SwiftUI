@@ -9,11 +9,12 @@ import SwiftUI
 
 struct UpdateTestView: View {
     
-    @ObservedObject var viewModel: TableViewModel
+    @StateObject var viewModel = TestViewModel()
     
     @Binding var selectedTest: Test?
     
     @Environment(\.dismiss) var dismiss
+    
     @State private var reading = ""
     @State private var notes = ""
     @State private var date = Date()
@@ -40,7 +41,7 @@ struct UpdateTestView: View {
                     }
                     
                     Section {
-                        Button(action: createTest) {
+                        Button(action: viewModel.updateTest) {
                             HStack {
                                 Spacer()
                                 Text("UPDATE TEST")
@@ -53,7 +54,7 @@ struct UpdateTestView: View {
                     }
                     
                     Section {
-                        Button(action: createTest) {
+                        Button(action: viewModel.deleteTest) {
                             HStack {
                                 Spacer()
                                 Text("DELETE TEST")
@@ -77,21 +78,10 @@ struct UpdateTestView: View {
                 })
         }
     }
-    
-    func createTest() {
-        Task {
-            do {
-                try await viewModel.createTest(date: date, reading: Double(reading)!, notes: notes)
-                dismiss()
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-    }
 }
 
-struct UpdateTestView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewTestView(viewModel: TableViewModel())
-    }
-}
+//struct UpdateTestView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UpdateTestView(selectedTest: <#T##Binding<Test?>#>)
+//    }
+//}

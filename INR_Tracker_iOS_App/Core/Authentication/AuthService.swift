@@ -13,6 +13,7 @@ protocol AuthenticationFormProtocol {
     var formIsValid: Bool { get }
 }
 
+@MainActor
 class AuthService{
     
     @Published var userSession: FirebaseAuth.User?
@@ -72,7 +73,10 @@ class AuthService{
     func fetchUser() async {
         print("CONSOLE-DEBUG: AuthService fetchUser called")
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
+        guard let snapshot = try? await Firestore.firestore()
+            .collection("users")
+            .document(uid)
+            .getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
 
         print("CONSOLE-DEBUG: Setting currentUser to: \(String(describing: self.currentUser))")

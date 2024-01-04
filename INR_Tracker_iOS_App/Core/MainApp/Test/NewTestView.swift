@@ -2,7 +2,7 @@ import SwiftUI
 
 struct NewTestView: View {
     
-    @ObservedObject var viewModel: TableViewModel
+    @StateObject var viewModel = TestViewModel()
     
     @Environment(\.dismiss) var dismiss
     @State private var reading = ""
@@ -70,6 +70,6 @@ struct NewTestView: View {
 
 struct NewTestView_Previews: PreviewProvider {
     static var previews: some View {
-        NewTestView(viewModel: TableViewModel())
+        NewTestView()
     }
 }
