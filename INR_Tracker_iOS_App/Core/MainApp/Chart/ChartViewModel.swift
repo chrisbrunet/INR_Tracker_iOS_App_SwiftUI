@@ -21,8 +21,8 @@ class ChartViewModel: ObservableObject {
     
     static let shared = ChartViewModel()
     
-//    @Published var chartMin: Double?
-//    @Published var chartMax: Double?
+    @Published var chartMin: Double?
+    @Published var chartMax: Double?
 
     private var cancellables = Set<AnyCancellable>()
     
@@ -50,12 +50,12 @@ class ChartViewModel: ObservableObject {
         self.ninetyDaysData = filterTestsLastNDays(days: 90, tests: chartData!)
         self.oneYearData = filterTestsLastNDays(days: 365, tests: chartData!)
         
-//        let readings = chartData!.map { $0.reading }
-//        let minINRidx = chartData!.firstIndex { $0.reading == readings.min() } ?? 0
-//        let maxINRidx = chartData!.firstIndex { $0.reading == readings.max() } ?? 0
-//
-//        self.chartMin = chartData![minINRidx].reading
-//        self.chartMax = chartData![maxINRidx].reading
+        let readings = chartData!.map { $0.reading }
+        let minINRidx = chartData!.firstIndex { $0.reading == readings.min() } ?? 0
+        let maxINRidx = chartData!.firstIndex { $0.reading == readings.max() } ?? 0
+
+        self.chartMin = chartData![minINRidx].reading
+        self.chartMax = chartData![maxINRidx].reading
         
         print("CONSOLE-DEBUG: PrePareChartData called. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
     }

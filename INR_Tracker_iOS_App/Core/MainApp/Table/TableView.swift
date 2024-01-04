@@ -22,7 +22,7 @@ struct TableView: View {
                     List {
                         ForEach(data) { test in
                             let formattedDate = formattedDate(test.date)
-                            TableRowView(reading: String(test.reading), date: formattedDate)
+                            TableRowView(reading: test.reading, date: formattedDate)
                                 .onTapGesture {
                                     selectedTest = test
                                     isUpdateView = true

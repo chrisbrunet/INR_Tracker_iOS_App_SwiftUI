@@ -8,18 +8,47 @@
 import SwiftUI
 
 struct TableRowView: View {
-    let reading: String
+    let reading: Double
     let date: String
     
     var body: some View {
         HStack{
-            Text(reading)
-                .font(.title)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .frame(width: 72, height: 72)
-                .background(Color(.systemGray3))
-                .clipShape(Circle())
+            if reading < 2.0 || reading > 3.5 {
+                Text(String(reading))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(width: 72, height: 72)
+                    .background(.red)
+                    .clipShape(Circle())
+                
+                Text("Outside of therapeutic range")
+                    .font(.subheadline)
+                
+            } else if reading >= 2.5 && reading <= 3 {
+                Text(String(reading))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(width: 72, height: 72)
+                    .background(.green)
+                    .clipShape(Circle())
+                
+                Text("Well within therepeutic range")
+                    .font(.subheadline)
+            } else if (reading >= 2 && reading < 2.5) ||
+                    (reading > 3 && reading <= 3.5) {
+                Text(String(reading))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(width: 72, height: 72)
+                    .background(.yellow)
+                    .clipShape(Circle())
+                
+                Text("Inside therepeutic range")
+                    .font(.subheadline)
+            }
             
             Spacer()
             
@@ -33,5 +62,5 @@ struct TableRowView: View {
 }
 
 #Preview {
-    TableRowView(reading: "2.5", date: "2023-12-11")
+    TableRowView(reading: 3.1, date: "2023-12-11")
 }
