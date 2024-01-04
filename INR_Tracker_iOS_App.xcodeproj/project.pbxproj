@@ -10,6 +10,7 @@
 		A4375FA32B45B00900B7DCB1 /* TableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA22B45B00900B7DCB1 /* TableRowView.swift */; };
 		A4375FA62B45C37600B7DCB1 /* NewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA52B45C37600B7DCB1 /* NewTestView.swift */; };
 		A4375FA82B45EF2900B7DCB1 /* ChartPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA72B45EF2900B7DCB1 /* ChartPoint.swift */; };
+		A4439B732B470314002B16BA /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4439B722B470314002B16BA /* DataService.swift */; };
 		A4C062972B46386E00A9CD49 /* UpdateTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C062962B46386E00A9CD49 /* UpdateTestView.swift */; };
 		A4C062992B46861700A9CD49 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C062982B46861700A9CD49 /* LoginViewModel.swift */; };
 		A4C0629B2B46862A00A9CD49 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C0629A2B46862A00A9CD49 /* RegistrationViewModel.swift */; };
@@ -64,6 +65,7 @@
 		A4375FA22B45B00900B7DCB1 /* TableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowView.swift; sourceTree = "<group>"; };
 		A4375FA52B45C37600B7DCB1 /* NewTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTestView.swift; sourceTree = "<group>"; };
 		A4375FA72B45EF2900B7DCB1 /* ChartPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartPoint.swift; sourceTree = "<group>"; };
+		A4439B722B470314002B16BA /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A4C062962B46386E00A9CD49 /* UpdateTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTestView.swift; sourceTree = "<group>"; };
 		A4C062982B46861700A9CD49 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		A4C0629A2B46862A00A9CD49 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -135,6 +137,18 @@
 			path = Test;
 			sourceTree = "<group>";
 		};
+		A4439B712B4702DC002B16BA /* MainApp */ = {
+			isa = PBXGroup;
+			children = (
+				A4439B722B470314002B16BA /* DataService.swift */,
+				A4CADA372B44A72600E329D8 /* Profile */,
+				A4DBF7742B44B7A700BCDD64 /* Table */,
+				A4375FA42B45C35300B7DCB1 /* Test */,
+				A4DBF7772B44BE0E00BCDD64 /* Chart */,
+			);
+			path = MainApp;
+			sourceTree = "<group>";
+		};
 		A4CADA132B44A64700E329D8 = {
 			isa = PBXGroup;
 			children = (
@@ -196,10 +210,7 @@
 			children = (
 				A4CADA432B44A7EB00E329D8 /* Root */,
 				A4CADA3A2B44A74700E329D8 /* Authentication */,
-				A4CADA372B44A72600E329D8 /* Profile */,
-				A4DBF7742B44B7A700BCDD64 /* Table */,
-				A4375FA42B45C35300B7DCB1 /* Test */,
-				A4DBF7772B44BE0E00BCDD64 /* Chart */,
+				A4439B712B4702DC002B16BA /* MainApp */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -369,6 +380,7 @@
 				A4CADA332B44A6E600E329D8 /* SettingsRowView.swift in Sources */,
 				A4C0629B2B46862A00A9CD49 /* RegistrationViewModel.swift in Sources */,
 				A4DBF77B2B44C05300BCDD64 /* TableViewModel.swift in Sources */,
+				A4439B732B470314002B16BA /* DataService.swift in Sources */,
 				A4CADA312B44A6C200E329D8 /* InputView.swift in Sources */,
 				A4CADA402B44A79100E329D8 /* RegistrationView.swift in Sources */,
 				A4C0629D2B46863E00A9CD49 /* AuthService.swift in Sources */,

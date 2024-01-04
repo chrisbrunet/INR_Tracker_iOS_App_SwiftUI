@@ -16,7 +16,7 @@ class ProfileViewModel: ObservableObject {
     
     init() {
         setupSubscribers()
-        print("DEBUG: currentUser on ProfileViewModel is \(currentUser)")
+        print("CONSOLE-DEBUG: ProfileViewModel init() currentUser on is \(String(describing: currentUser?.id))")
     }
     
     private func setupSubscribers() {
