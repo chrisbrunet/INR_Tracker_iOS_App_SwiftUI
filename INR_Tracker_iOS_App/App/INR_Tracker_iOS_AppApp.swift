@@ -8,10 +8,18 @@
 import SwiftUI
 import FirebaseCore
 
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//    func applicationWillTerminate(_ application: UIApplication, didFinishWithLaunchingOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//        FirebaseApp.configure()
+//        return true
+//    }
+//}
+
 @main
 struct INR_Tracker_iOS_AppApp: App {
     
-    @StateObject var viewModel = AuthViewModel()
+//    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
     
     init(){
         FirebaseApp.configure()
@@ -20,7 +28,7 @@ struct INR_Tracker_iOS_AppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(viewModel)
+//                .environmentObject(viewModel)
         }
     }
 }

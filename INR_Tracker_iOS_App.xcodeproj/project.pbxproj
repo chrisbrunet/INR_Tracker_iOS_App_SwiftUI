@@ -10,6 +10,12 @@
 		A4375FA32B45B00900B7DCB1 /* TableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA22B45B00900B7DCB1 /* TableRowView.swift */; };
 		A4375FA62B45C37600B7DCB1 /* NewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA52B45C37600B7DCB1 /* NewTestView.swift */; };
 		A4375FA82B45EF2900B7DCB1 /* ChartPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4375FA72B45EF2900B7DCB1 /* ChartPoint.swift */; };
+		A4C062972B46386E00A9CD49 /* UpdateTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C062962B46386E00A9CD49 /* UpdateTestView.swift */; };
+		A4C062992B46861700A9CD49 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C062982B46861700A9CD49 /* LoginViewModel.swift */; };
+		A4C0629B2B46862A00A9CD49 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C0629A2B46862A00A9CD49 /* RegistrationViewModel.swift */; };
+		A4C0629D2B46863E00A9CD49 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C0629C2B46863E00A9CD49 /* AuthService.swift */; };
+		A4C0629F2B468AC700A9CD49 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C0629E2B468AC700A9CD49 /* ContentViewModel.swift */; };
+		A4C062A12B468F2700A9CD49 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C062A02B468F2700A9CD49 /* ProfileViewModel.swift */; };
 		A4CADA202B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA1F2B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift */; };
 		A4CADA222B44A64700E329D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA212B44A64700E329D8 /* ContentView.swift */; };
 		A4CADA242B44A64800E329D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4CADA232B44A64800E329D8 /* Assets.xcassets */; };
@@ -20,7 +26,6 @@
 		A4CADA392B44A73500E329D8 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA382B44A73500E329D8 /* ProfileView.swift */; };
 		A4CADA3E2B44A76E00E329D8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA3D2B44A76E00E329D8 /* LoginView.swift */; };
 		A4CADA402B44A79100E329D8 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA3F2B44A79100E329D8 /* RegistrationView.swift */; };
-		A4CADA422B44A7B900E329D8 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA412B44A7B900E329D8 /* AuthViewModel.swift */; };
 		A4CADA462B44A88600E329D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CADA452B44A88600E329D8 /* User.swift */; };
 		A4DBF73F2B44AB3000BCDD64 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A4DBF73E2B44AB3000BCDD64 /* FirebaseAnalytics */; };
 		A4DBF7412B44AB3000BCDD64 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = A4DBF7402B44AB3000BCDD64 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -59,6 +64,12 @@
 		A4375FA22B45B00900B7DCB1 /* TableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowView.swift; sourceTree = "<group>"; };
 		A4375FA52B45C37600B7DCB1 /* NewTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTestView.swift; sourceTree = "<group>"; };
 		A4375FA72B45EF2900B7DCB1 /* ChartPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartPoint.swift; sourceTree = "<group>"; };
+		A4C062962B46386E00A9CD49 /* UpdateTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTestView.swift; sourceTree = "<group>"; };
+		A4C062982B46861700A9CD49 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		A4C0629A2B46862A00A9CD49 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		A4C0629C2B46863E00A9CD49 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		A4C0629E2B468AC700A9CD49 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		A4C062A02B468F2700A9CD49 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		A4CADA1C2B44A64700E329D8 /* INR_Tracker_iOS_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = INR_Tracker_iOS_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CADA1F2B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INR_Tracker_iOS_AppApp.swift; sourceTree = "<group>"; };
 		A4CADA212B44A64700E329D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -70,7 +81,6 @@
 		A4CADA382B44A73500E329D8 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A4CADA3D2B44A76E00E329D8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A4CADA3F2B44A79100E329D8 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
-		A4CADA412B44A7B900E329D8 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		A4CADA452B44A88600E329D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A4DBF7752B44B7D200BCDD64 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		A4DBF7782B44BE2000BCDD64 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
@@ -120,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				A4375FA52B45C37600B7DCB1 /* NewTestView.swift */,
+				A4C062962B46386E00A9CD49 /* UpdateTestView.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -197,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				A4CADA382B44A73500E329D8 /* ProfileView.swift */,
+				A4C062A02B468F2700A9CD49 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -204,9 +216,11 @@
 		A4CADA3A2B44A74700E329D8 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				A4CADA412B44A7B900E329D8 /* AuthViewModel.swift */,
+				A4C0629C2B46863E00A9CD49 /* AuthService.swift */,
 				A4CADA3D2B44A76E00E329D8 /* LoginView.swift */,
+				A4C062982B46861700A9CD49 /* LoginViewModel.swift */,
 				A4CADA3F2B44A79100E329D8 /* RegistrationView.swift */,
+				A4C0629A2B46862A00A9CD49 /* RegistrationViewModel.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -215,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				A4CADA212B44A64700E329D8 /* ContentView.swift */,
+				A4C0629E2B468AC700A9CD49 /* ContentViewModel.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -352,19 +367,24 @@
 				A4CADA3E2B44A76E00E329D8 /* LoginView.swift in Sources */,
 				A4DBF7762B44B7D200BCDD64 /* TableView.swift in Sources */,
 				A4CADA332B44A6E600E329D8 /* SettingsRowView.swift in Sources */,
+				A4C0629B2B46862A00A9CD49 /* RegistrationViewModel.swift in Sources */,
 				A4DBF77B2B44C05300BCDD64 /* TableViewModel.swift in Sources */,
 				A4CADA312B44A6C200E329D8 /* InputView.swift in Sources */,
 				A4CADA402B44A79100E329D8 /* RegistrationView.swift in Sources */,
+				A4C0629D2B46863E00A9CD49 /* AuthService.swift in Sources */,
 				A4375FA32B45B00900B7DCB1 /* TableRowView.swift in Sources */,
 				A4375FA62B45C37600B7DCB1 /* NewTestView.swift in Sources */,
+				A4C062992B46861700A9CD49 /* LoginViewModel.swift in Sources */,
 				A4DBF77D2B44C06500BCDD64 /* Test.swift in Sources */,
-				A4CADA422B44A7B900E329D8 /* AuthViewModel.swift in Sources */,
 				A4CADA462B44A88600E329D8 /* User.swift in Sources */,
 				A4DBF7792B44BE2000BCDD64 /* ChartView.swift in Sources */,
 				A4375FA82B45EF2900B7DCB1 /* ChartPoint.swift in Sources */,
 				A4CADA392B44A73500E329D8 /* ProfileView.swift in Sources */,
+				A4C0629F2B468AC700A9CD49 /* ContentViewModel.swift in Sources */,
+				A4C062A12B468F2700A9CD49 /* ProfileViewModel.swift in Sources */,
 				A4CADA222B44A64700E329D8 /* ContentView.swift in Sources */,
 				A4CADA202B44A64700E329D8 /* INR_Tracker_iOS_AppApp.swift in Sources */,
+				A4C062972B46386E00A9CD49 /* UpdateTestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
     
-    @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack{
@@ -23,16 +21,16 @@ struct LoginView: View {
                     .padding(.vertical, 32)
                 
                 VStack(spacing: 24){
-                    InputView(text: $email, title: "Email Address", placeholder: "name@example.com")
+                    InputView(text: $viewModel.email, title: "Email Address", placeholder: "name@example.com")
                         .autocapitalization(.none)
                     
-                    InputView(text: $password, title: "Password", placeholder: "Enter Password", isSecureField: true)
+                    InputView(text: $viewModel.password, title: "Password", placeholder: "Enter Password", isSecureField: true)
                 }
                 .padding()
                 
                 Button {
                     Task {
-                        try await viewModel.signIn(withEmail: email, password: password)
+                        try await viewModel.signIn()
                     }
                 } label: {
                     HStack {
@@ -71,10 +69,10 @@ struct LoginView: View {
 
 extension LoginView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return !email.isEmpty
-        && email.contains("@")
-        && !password.isEmpty
-        && password.count > 5
+        return !viewModel.email.isEmpty
+        && viewModel.email.contains("@")
+        && !viewModel.password.isEmpty
+        && viewModel.password.count > 5
     }
 }
 

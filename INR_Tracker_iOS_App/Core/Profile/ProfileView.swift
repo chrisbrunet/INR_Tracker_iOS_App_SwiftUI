@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var viewModel = ProfileViewModel()
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -68,6 +68,8 @@ struct ProfileView: View {
                 }
                 
             }
+        } else {
+            Text("Profile Not loading")
         }
     }
 }

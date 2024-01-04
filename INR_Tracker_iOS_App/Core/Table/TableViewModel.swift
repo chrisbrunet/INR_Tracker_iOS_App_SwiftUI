@@ -13,7 +13,7 @@ import Combine
 @MainActor
 class TableViewModel: ObservableObject {
     
-    @Published var currentUser: User?
+//    @Published var currentUser: User?
     @Published var isLoading = true
     
     @Published var tests: [Test]?
@@ -23,7 +23,7 @@ class TableViewModel: ObservableObject {
     
     init() {
         print("Initializing Table View Model")
-        setupSubscribers()
+//        setupSubscribers()
         
         Task {
             try await fetchAndUpdateTests()
@@ -31,11 +31,11 @@ class TableViewModel: ObservableObject {
         }
     }
     
-    private func setupSubscribers(){
-        AuthViewModel.shared.$currentUser.sink { [weak self] user in
-            self?.currentUser = user
-        }.store(in: &cancellables)
-    }
+//    private func setupSubscribers(){
+//        AuthViewModel.shared.$currentUser.sink { [weak self] user in
+//            self?.currentUser = user
+//        }.store(in: &cancellables)
+//    }
     
     func fetchTests() async throws {
         print("fetch tests called")

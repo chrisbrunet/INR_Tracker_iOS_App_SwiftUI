@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var viewModel = ContentViewModel()
     
     var body: some View {
         Group {

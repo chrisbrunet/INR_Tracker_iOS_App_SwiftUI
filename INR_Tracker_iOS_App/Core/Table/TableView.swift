@@ -10,7 +10,10 @@ import SwiftUI
 struct TableView: View {
     
     @StateObject var viewModel = TableViewModel()
+    @State var showNewView = false
     @State private var showNewTestView = false
+    @State private var showUpdateTestView = false
+    @State var selectedTest: Test?
 
     var body: some View {
         NavigationStack{
@@ -20,9 +23,14 @@ struct TableView: View {
                 ScrollView {
                     if let data = viewModel.tests {
                         List {
-                            ForEach(data, id: \.id) { test in
-                                let formatted = formattedDate(test.date)
-                                TableRowView(reading: String(test.reading), date: formatted)
+                            ForEach(data) { test in
+                                let formattedDate = formattedDate(test.date)
+                                TableRowView(reading: String(test.reading), date: formattedDate)
+                                    .onTapGesture {
+                                        selectedTest = test
+                                        showNewView.toggle() // Show the update view
+                                        showUpdateTestView = true // Set update view mode
+                                    }
                             }
                         }
                         .listStyle(PlainListStyle())
@@ -31,8 +39,12 @@ struct TableView: View {
                         Text("No Tests")
                     }
                 }
-                .fullScreenCover(isPresented: $showNewTestView, content: {
-                    NewTestView(viewModel: viewModel)
+                .fullScreenCover(isPresented: $showNewView, content: {
+                    if showUpdateTestView {
+                        UpdateTestView(viewModel: viewModel, selectedTest: $selectedTest)
+                    } else {
+                        NewTestView(viewModel: viewModel)
+                    }
                 })
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -43,7 +55,7 @@ struct TableView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
-                            showNewTestView.toggle()
+                            showNewView.toggle()
                         } label: {
                             HStack{
                                 Text("New Test")

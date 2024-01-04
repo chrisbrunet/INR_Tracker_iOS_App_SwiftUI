@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct RegistrationView: View {
-    @State private var email = ""
-    @State private var fullName = ""
-    @State private var password = ""
+    
+    @StateObject var viewModel = RegistrationViewModel()
     @State private var confirmPassword = ""
     @Environment(\.dismiss) var dismiss
-    
-    @EnvironmentObject var viewModel: AuthViewModel
 
-    
     var body: some View {
         VStack {
             Image("BloodDrop")
@@ -26,13 +22,12 @@ struct RegistrationView: View {
                 .padding(.vertical, 32)
             
             VStack(spacing: 24){
-                InputView(text: $email, title: "Email Address", placeholder: "name@example.com")
+                InputView(text: $viewModel.email, title: "Email Address", placeholder: "name@example.com")
                     .autocapitalization(.none)
                 
-                InputView(text: $fullName, title: "Full Name", placeholder: "John Doe")
-                    .autocapitalization(.none)
+                InputView(text: $viewModel.fullname, title: "Full Name", placeholder: "John Doe")
                 
-                InputView(text: $password, title: "Password", placeholder: "Enter Password", isSecureField: true)
+                InputView(text: $viewModel.password, title: "Password", placeholder: "Enter Password", isSecureField: true)
                 
                 InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Enter Password", isSecureField: true)
             }
@@ -40,7 +35,7 @@ struct RegistrationView: View {
             
             Button {
                 Task {
-                    try await viewModel.createUser(withEmail: email, password: password, fullname: fullName)
+                    try await viewModel.createUser()
                 }
             } label: {
                 HStack {
@@ -76,13 +71,12 @@ struct RegistrationView: View {
 
 extension RegistrationView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return !email.isEmpty
-        && email.contains("@")
-        && !password.isEmpty
-        && password.count > 5
-        && confirmPassword == password
-        && !fullName.isEmpty
-        
+        return !viewModel.email.isEmpty
+        && viewModel.email.contains("@")
+        && !viewModel.password.isEmpty
+        && viewModel.password.count > 5
+        && confirmPassword == viewModel.password
+        && !viewModel.fullname.isEmpty
     }
 }
 
