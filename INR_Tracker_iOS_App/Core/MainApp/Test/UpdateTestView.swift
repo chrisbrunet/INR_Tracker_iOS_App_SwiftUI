@@ -105,9 +105,11 @@ struct UpdateTestView: View {
     }
     
     func deleteTest() {
+        guard let deletedTest = selectedTest else { return }
+        
         Task {
             do {
-                try await viewModel.deleteTest(test: selectedTest!)
+                try await viewModel.deleteTest(test: deletedTest)
                 dismiss()
             } catch {
                 print("Error: \(error.localizedDescription)")

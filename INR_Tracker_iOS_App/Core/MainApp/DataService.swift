@@ -60,24 +60,38 @@ class DataService: ObservableObject {
             
             await fetchTests()
         } catch {
-            print("CONSOLE-DEBUG: Failed to create user with error: \(error.localizedDescription)")
+            print("CONSOLE-DEBUG: Failed to create test with error: \(error.localizedDescription)")
         }
     }
     
     func updateTest(test: Test) async throws {
-        print("CONSOLE-DEBUG: Updating Test: \(test)")
-        let encodedTest = try Firestore.Encoder().encode(test)
-        try await Firestore.firestore()
-            .collection("tests")
-            .document(test.id)
-            .updateData(["reading": test.reading,
-                         "notes": test.notes,
-                         "date": test.date])
-        
-        await fetchTests()
+        do {
+            print("CONSOLE-DEBUG: DataService updateTest called")
+            try await Firestore.firestore()
+                .collection("tests")
+                .document(test.id)
+                .updateData(["reading": test.reading,
+                             "notes": test.notes,
+                             "date": test.date])
+            print("CONSOLE-DEBUG: Test Updated: \(test)")
+            
+            await fetchTests()
+        } catch {
+            print("CONSOLE-DEBUG: Failed to update test with error: \(error.localizedDescription)")
+        }
     }
     
     func deleteTest(test: Test) async throws {
-        print("CONSOLE-DEBUG: Deleting Test")
-    }
+        do {
+            print("CONSOLE-DEBUG: DataService deleteTest called")
+            try await Firestore.firestore()
+                .collection("tests")
+                .document(test.id)
+                .delete()
+            print("CONSOLE-DEBUG: Test Deleted: \(test)")
+            
+            await fetchTests()
+        } catch {
+            print("CONSOLE-DEBUG: Failed to delete test with error: \(error.localizedDescription)")
+        }    }
 }
