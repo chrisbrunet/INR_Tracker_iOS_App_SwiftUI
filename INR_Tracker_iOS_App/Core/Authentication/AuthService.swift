@@ -27,7 +27,7 @@ class AuthService{
         
         Task {
             await fetchUser()
-            print("CONSOLE-DEBUG: AuthService Init() currentUser id is \(String(describing: currentUser?.id))")
+            print("CONSOLE-DEBUG: AuthService Init() currentUser is \(String(describing: currentUser?.fullName))")
         }
     }
     
@@ -79,7 +79,7 @@ class AuthService{
             .getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
 
-        print("CONSOLE-DEBUG: Setting currentUser to: \(String(describing: self.currentUser))")
+        print("CONSOLE-DEBUG: Setting currentUser to: \(String(describing: self.currentUser?.fullName))")
     }
     
     func deleteAccount(){

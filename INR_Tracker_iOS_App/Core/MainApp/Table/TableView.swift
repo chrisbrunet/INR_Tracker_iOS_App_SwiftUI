@@ -36,11 +36,10 @@ struct TableView: View {
                 }
             } // end scroll view
             .fullScreenCover(isPresented: $showNewView, content: {
-                if (selectedTest != nil) || (isUpdateView == true) {
+                if (selectedTest != nil) && (isUpdateView == true) {
                     UpdateTestView(selectedTest: $selectedTest)
-                } else if (selectedTest == nil && (isUpdateView == false)) {
+                } else if (selectedTest == nil) && (isUpdateView == false) {
                     NewTestView()
-                } else {
                 }
             })
             .toolbar {

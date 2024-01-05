@@ -25,8 +25,8 @@ struct ChartView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    if let data = chartData  {
-                        
+                    if var data = chartData  {
+                                                
                         // variables depeding on date filter
                         let readings = data.map { $0.reading }
                         let average = readings.reduce(0, +) / Double(readings.count)
@@ -216,15 +216,15 @@ struct ChartView: View {
                                         )
                                 }
                             })
-                            //                    .onAppear {
-                            //                        for (index,_) in chartData.enumerated(){
-                            //                            DispatchQueue.main.asyncAfter(deadline: .now()){
-                            //                                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
-                            //                                    chartData[index].animate = true
+                            //                            .onAppear {
+                            //                                for (index,_) in data.enumerated(){
+                            //                                    DispatchQueue.main.asyncAfter(deadline: .now()){
+                            //                                        withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
+                            //                                            data[index].animate = true
+                            //                                        }
+                            //                                    }
                             //                                }
                             //                            }
-                            //                        }
-                            //                    }
                         } // end main vstack
                         
                         VStack {
@@ -269,17 +269,25 @@ struct ChartView: View {
                 }
             }
             .onChange(of: currentTab, perform: { newTab in
-                viewModel.updateChartData(for: newTab)
+                updateChartData(for: newTab)
             })
             .onAppear {
                 Task {
-                    await DataService.shared.fetchTests()
-                    viewModel.prepareChartData()
-                    viewModel.updateChartData(for: currentTab)
                     chartData = viewModel.chartData
                 }
             }
         } // end nav stack
+    }
+    
+    func updateChartData(for tab: String) {
+        switch tab {
+        case "90 Days":
+            chartData = viewModel.ninetyDaysData
+        case "1 Year":
+            chartData = viewModel.oneYearData
+        default:
+            chartData = viewModel.chartData // needs fix
+        }
     }
 }
 

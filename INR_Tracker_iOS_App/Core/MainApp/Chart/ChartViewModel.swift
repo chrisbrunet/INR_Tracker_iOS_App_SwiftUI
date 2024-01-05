@@ -13,14 +13,12 @@ import Combine
 @MainActor
 class ChartViewModel: ObservableObject {
     
-    @Published var tests: [Test]?
     @Published var chartData: [ChartPoint]?
     
     @Published var ninetyDaysData: [ChartPoint]?
     @Published var oneYearData: [ChartPoint]?
-    
-    static let shared = ChartViewModel()
-    
+    @Published var allTimeData: [ChartPoint]?
+        
     @Published var chartMin: Double?
     @Published var chartMax: Double?
 
@@ -28,7 +26,6 @@ class ChartViewModel: ObservableObject {
     
     init() {
         print("CONSOLE-DEBUG: ChartViewModel init() called")
-        
         Task {
             await DataService.shared.fetchTests()
             prepareChartData()
@@ -37,16 +34,12 @@ class ChartViewModel: ObservableObject {
     }
     
     private func setupSubscribers() {
-        DataService.shared.$tests
-            .assign(to: \.tests, on: self)
+        DataService.shared.$chartData
+            .assign(to: \.chartData, on: self)
             .store(in: &cancellables)
     }
     
     func prepareChartData(){
-        self.chartData = tests!.compactMap { test in
-            return ChartPoint(date: test.date, reading: test.reading)
-        }
-        
         self.ninetyDaysData = filterTestsLastNDays(days: 90, tests: chartData!)
         self.oneYearData = filterTestsLastNDays(days: 365, tests: chartData!)
         
@@ -58,19 +51,6 @@ class ChartViewModel: ObservableObject {
         self.chartMax = chartData![maxINRidx].reading
         
         print("CONSOLE-DEBUG: PrePareChartData called. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
-    }
-    
-    func updateChartData(for tab: String) {
-        switch tab {
-        case "90 Days":
-            chartData = ninetyDaysData
-        case "1 Year":
-            chartData = oneYearData
-        default:
-            chartData = tests?.compactMap { test in
-                return ChartPoint(date: test.date, reading: test.reading)
-            }
-        }
     }
     
     func filterTestsLastNDays(days: Int, tests: [ChartPoint]) -> [ChartPoint] {

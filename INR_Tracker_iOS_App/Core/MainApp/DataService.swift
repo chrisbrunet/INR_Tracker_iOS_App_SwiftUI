@@ -14,6 +14,7 @@ import Combine
 class DataService: ObservableObject {
     
     @Published var tests: [Test]?
+    @Published var chartData: [ChartPoint]?
     @Published var userSession: FirebaseAuth.User?
     
     static let shared = DataService()
@@ -46,6 +47,10 @@ class DataService: ObservableObject {
         tests.sort { $0.date > $1.date }
         
         self.tests = tests
+        
+        self.chartData = tests.compactMap { test in
+            return ChartPoint(date: test.date, reading: test.reading)
+        }
         print("CONSOLE-DEBUG: \(tests.count) tests found")
     }
     
@@ -93,5 +98,6 @@ class DataService: ObservableObject {
             await fetchTests()
         } catch {
             print("CONSOLE-DEBUG: Failed to delete test with error: \(error.localizedDescription)")
-        }    }
+        }
+    }
 }
