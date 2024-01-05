@@ -17,7 +17,7 @@ struct TableView: View {
 
     var body: some View {
         NavigationStack{
-            ScrollView {
+            VStack {
                 if let data = viewModel.tests {
                     List {
                         ForEach(data) { test in
@@ -31,19 +31,16 @@ struct TableView: View {
                         }
                     }
                     .listStyle(PlainListStyle())
-                    .frame(height: UIScreen.main.bounds.height)
-                    .onAppear {
-                        selectedTest = data[0]
-                    }
                 } else {
                     Text("No Tests")
                 }
-            }
+            } // end scroll view
             .fullScreenCover(isPresented: $showNewView, content: {
-                if (selectedTest != nil) || isUpdateView == true {
+                if (selectedTest != nil) || (isUpdateView == true) {
                     UpdateTestView(selectedTest: $selectedTest)
-                } else {
+                } else if (selectedTest == nil && (isUpdateView == false)) {
                     NewTestView()
+                } else {
                 }
             })
             .toolbar {
@@ -67,7 +64,7 @@ struct TableView: View {
                     }
                 }
             }
-        }
+        } // end nav stack
     }
 }
 

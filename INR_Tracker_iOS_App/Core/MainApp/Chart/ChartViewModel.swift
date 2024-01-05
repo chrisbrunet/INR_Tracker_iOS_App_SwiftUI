@@ -60,6 +60,19 @@ class ChartViewModel: ObservableObject {
         print("CONSOLE-DEBUG: PrePareChartData called. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
     }
     
+    func updateChartData(for tab: String) {
+        switch tab {
+        case "90 Days":
+            chartData = ninetyDaysData
+        case "1 Year":
+            chartData = oneYearData
+        default:
+            chartData = tests?.compactMap { test in
+                return ChartPoint(date: test.date, reading: test.reading)
+            }
+        }
+    }
+    
     func filterTestsLastNDays(days: Int, tests: [ChartPoint]) -> [ChartPoint] {
         let currentDate = Date()
         let nDaysAgo = Calendar.current.date(byAdding: .day, value: -(days), to: currentDate)!

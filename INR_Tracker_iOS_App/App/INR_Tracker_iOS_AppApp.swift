@@ -28,7 +28,6 @@ struct INR_Tracker_iOS_AppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-//                .environmentObject(viewModel)
         }
     }
 }
