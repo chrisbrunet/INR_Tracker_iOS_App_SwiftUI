@@ -13,6 +13,7 @@ struct ChartView: View {
     @StateObject var viewModel = ChartViewModel()
     
     // variables from user interface
+    @State var showNewView = false
     @State private var trToggle = false
     @State private var avgToggle = false
     @State private var minmaxToggle = false
@@ -226,8 +227,13 @@ struct ChartView: View {
                             //                                }
                             //                            }
                         } // end main vstack
+                        .background{
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.white.shadow(.drop(radius: 2)))
+                        }
+                        .padding()
                         
-                        VStack {
+                        VStack(spacing: 10) {
                             HStack{
                                 Spacer()
                                 
@@ -235,7 +241,7 @@ struct ChartView: View {
                                     Text("Therapeutic Range")
                                 }
                                 
-                            }.padding()
+                            }
                             
                             HStack{
                                 Spacer()
@@ -244,7 +250,7 @@ struct ChartView: View {
                                     Text("Average")
                                 }
                                 
-                            }.padding()
+                            }
                             
                             HStack{
                                 Spacer()
@@ -253,28 +259,42 @@ struct ChartView: View {
                                     Text("Min/Max")
                                 }
                                 
-                            }.padding()
+                            }
                         } // end toggle vstack
+                        .padding(.horizontal, 20)
                     } else {
                         ProgressView()
                     }
                 }
-                .frame(height: UIScreen.main.bounds.height - 175)
+                .frame(height: UIScreen.main.bounds.height - 200)
             } // end scroll view
+            .fullScreenCover(isPresented: $showNewView, content: {
+                NewTestView()
+            })
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text("INR Chart")
                         .font(.title)
                         .fontWeight(.semibold)
                 }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showNewView.toggle()
+                    } label: {
+                        HStack{
+                            Text("New Test")
+                            
+                            Image(systemName: "square.and.pencil.circle.fill")
+                        }
+                    }
+                }
             }
             .onChange(of: currentTab, perform: { newTab in
                 updateChartData(for: newTab)
             })
             .onAppear {
-                Task {
-                    chartData = viewModel.chartData
-                }
+                chartData = viewModel.chartData
                 currentTab = "All Time"
             }
         } // end nav stack
@@ -287,7 +307,7 @@ struct ChartView: View {
         case "1 Year":
             chartData = viewModel.oneYearData
         default:
-            chartData = viewModel.chartData // needs fix
+            chartData = viewModel.chartData
         }
     }
 }

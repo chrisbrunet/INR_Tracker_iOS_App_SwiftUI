@@ -25,7 +25,7 @@ class DataService: ObservableObject {
         print("CONSOLE-DEBUG: DataService init() called")
         setupSubscribers()
         Task {
-            print("CONSOLE-DEBUG: DataService init() calling fetchUser")
+            print("CONSOLE-DEBUG: DataService init() calling fetchTests")
             await fetchTests()
         }
     }
