@@ -76,6 +76,28 @@ struct ChartView: View {
                                     )
                                     .interpolationMethod(.catmullRom)
                                     .foregroundStyle(curGradient)
+                                    
+                                    // shows viertical line with card showing INR reading when currentActiveItem is not null and is equal to the date of the current point
+                                    if let currentActiveItem, currentActiveItem.id == dataPoint.id {
+                                        RuleMark(x: .value("Date", currentActiveItem.date))
+                                            .lineStyle(.init(lineWidth: 2, dash: [2], dashPhase: 5))
+                                            .annotation(position: .top){
+                                                VStack(alignment: .leading, spacing: 6){
+                                                    Text("INR")
+                                                        .font(.caption)
+                                                        .foregroundColor(.gray)
+                                                    Text(String(currentActiveItem.reading))
+                                                        .font(.title3.bold())
+                                                }
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 4)
+                                                .background{
+                                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                                        .fill(.white.shadow(.drop(radius: 2)))
+                                                }
+                                            }
+                                    }
+                                    
                                 }
                                 
                                 // overlays minimum and maximum readings from current date filter as points if toggle is selected
@@ -163,21 +185,51 @@ struct ChartView: View {
                         } // end vstack with picker and chart
                         .padding()
                         .chartYScale(domain: viewModel.chartMin! - 0.2 ... viewModel.chartMax! + 0.2)
-                        .onChange(of: currentTab) { selection in
-                            if selection == "90 Days" {
-                                chartData = viewModel.ninetyDaysData!
-                            } else if selection == "1 Year" {
-                                chartData = viewModel.oneYearData!
-                            } else {
-                                chartData = viewModel.chartData!
+                        // getting data from drag gesture and setting currentActiveItem
+                        .chartOverlay(content: {proxy in
+                            GeometryReader{innerProxy in
+                                Rectangle()
+                                    .fill(.clear).contentShape(Rectangle())
+                                    .gesture(
+                                        DragGesture()
+                                            .onChanged{ value in
+                                                let location = value.location
+                                                if let touchDate: Date = proxy.value(atX: location.x){
+                                                    
+                                                    let calendar = Calendar.current
+                                                    let day = calendar.component(.day, from: touchDate)
+                                                    let month = calendar.component(.month, from: touchDate)
+                                                    let year = calendar.component(.year, from: touchDate)
+                                                    
+                                                    if let currentItem = chartData.first(where: { item in
+                                                        calendar.component(.day, from: item.date) == day &&
+                                                        calendar.component(.month, from: item.date) == month &&
+                                                        calendar.component(.year, from: item.date) == year
+                                                    }){
+                                                        self.currentActiveItem = currentItem
+                                                    }
+                                                }
+                                            }.onEnded{value in
+                                                self.currentActiveItem = nil
+                                            }
+                                    )
                             }
-                        }
+                        })
                         
                     } else {
                         ProgressView()
                     }
                 } // end main vstack
                 .frame(maxHeight: UIScreen.main.bounds.height)
+//                .onChange(of: currentTab) { selection in
+//                    if selection == "90 Days" {
+//                        chartData = viewModel.ninetyDaysData!
+//                    } else if selection == "1 Year" {
+//                        chartData = viewModel.oneYearData!
+//                    } else {
+//                        chartData = viewModel.chartData!
+//                    }
+//                }
                 
                 VStack {
                     HStack{
