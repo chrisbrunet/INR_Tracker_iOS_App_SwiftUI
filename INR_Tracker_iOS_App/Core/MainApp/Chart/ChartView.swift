@@ -25,7 +25,7 @@ struct ChartView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    if var data = chartData  {
+                    if let data = chartData  {
                                                 
                         // variables depeding on date filter
                         let readings = data.map { $0.reading }
