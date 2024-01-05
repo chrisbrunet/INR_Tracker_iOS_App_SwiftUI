@@ -275,6 +275,7 @@ struct ChartView: View {
                 Task {
                     chartData = viewModel.chartData
                 }
+                currentTab = "All Time"
             }
         } // end nav stack
     }
