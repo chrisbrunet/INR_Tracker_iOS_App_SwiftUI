@@ -27,19 +27,24 @@ class ChartViewModel: ObservableObject {
     init() {
         print("CONSOLE-DEBUG: ChartViewModel init() called")
         Task {
+            print("CONSOLE-DEBUG: ChartViewModel init() calling DataService fetchTests")
             await DataService.shared.fetchTests()
+            print("CONSOLE-DEBUG: ChartViewModel init() calling setupSubscribers")
+            setupSubscribers()
+            print("CONSOLE-DEBUG: ChartViewModel init() calling prepareChartData")
             prepareChartData()
         }
-        setupSubscribers()
     }
     
     private func setupSubscribers() {
+        print("CONSOLE-DEBUG: ChartViewModel setupSubscribers() called")
         DataService.shared.$chartData
             .assign(to: \.chartData, on: self)
             .store(in: &cancellables)
     }
     
     func prepareChartData(){
+        print("CONSOLE-DEBUG: ChartViewModel prepareCharData called")
         self.ninetyDaysData = filterTestsLastNDays(days: 90, tests: chartData!)
         self.oneYearData = filterTestsLastNDays(days: 365, tests: chartData!)
         
@@ -50,7 +55,7 @@ class ChartViewModel: ObservableObject {
         self.chartMin = chartData![minINRidx].reading
         self.chartMax = chartData![maxINRidx].reading
         
-        print("CONSOLE-DEBUG: PrePareChartData called. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
+        print("CONSOLE-DEBUG: PrePareChartData completed. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
     }
     
     func filterTestsLastNDays(days: Int, tests: [ChartPoint]) -> [ChartPoint] {

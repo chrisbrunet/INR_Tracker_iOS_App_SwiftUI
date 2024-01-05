@@ -25,11 +25,13 @@ class DataService: ObservableObject {
         print("CONSOLE-DEBUG: DataService init() called")
         setupSubscribers()
         Task {
+            print("CONSOLE-DEBUG: DataService init() calling fetchUser")
             await fetchTests()
         }
     }
     
     private func setupSubscribers() {
+        print("CONSOLE-DEBUG: DataService setupSubscribers() called")
         AuthService.shared.$userSession
             .assign(to: \.userSession, on: self)
             .store(in: &cancellables)
@@ -38,6 +40,7 @@ class DataService: ObservableObject {
     func fetchTests() async {
         print("CONSOLE-DEBUG: DataService fetchTests called")
         guard let uid = self.userSession?.uid else { return }
+        print("CONSOLE-DEBUG: DataService fetchTests userSession is \(uid)")
         guard let snapshot = try? await Firestore.firestore()
             .collection("tests")
             .whereField("userId", isEqualTo: uid)
@@ -51,7 +54,7 @@ class DataService: ObservableObject {
         self.chartData = tests.compactMap { test in
             return ChartPoint(date: test.date, reading: test.reading)
         }
-        print("CONSOLE-DEBUG: \(tests.count) tests found")
+        print("CONSOLE-DEBUG: DataService fetchTests completed. \(tests.count) tests found")
     }
     
     func createTest(date: Date, reading: Double, notes: String) async throws {

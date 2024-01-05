@@ -16,6 +16,7 @@ class ContentViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        print("CONSOLE-DEBUG: ContentViewModel init() called.")
         setupSubscribers()
     }
     

@@ -23,11 +23,11 @@ class AuthService{
     
     init(){
         self.userSession = Auth.auth().currentUser
-        print("CONSOLE-DEBUG: AuthService Init() userSession id is \(String(describing: userSession?.uid))")
+        print("CONSOLE-DEBUG: AuthService Init() called. userSession id is \(String(describing: userSession?.uid))")
         
         Task {
             await fetchUser()
-            print("CONSOLE-DEBUG: AuthService Init() currentUser is \(String(describing: currentUser?.fullName))")
+            print("CONSOLE-DEBUG: AuthService Init() Task { fetchUser } currentUser is \(String(describing: currentUser?.fullName))")
         }
     }
     
@@ -35,8 +35,11 @@ class AuthService{
         do {
             print("CONSOLE-DEBUG: AuthService signIn called. Email: \(email), Password: \(password)")
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            self.userSession = result.user
             
+            self.userSession = result.user
+            print("CONSOLE-DEBUG: AuthService signIn completed. userSession id is \(String(describing: userSession?.uid))")
+            
+            print("CONSOLE-DEBUG: AuthService signIn now calling fetchUser")
             await fetchUser()
         } catch {
             print("CONSOLE-DEBUG: Failed to log in with error: \(error.localizedDescription)")
@@ -79,7 +82,7 @@ class AuthService{
             .getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
 
-        print("CONSOLE-DEBUG: Setting currentUser to: \(String(describing: self.currentUser?.fullName))")
+        print("CONSOLE-DEBUG: AuthService FetchUser completed. currentUser set to: \(String(describing: self.currentUser?.fullName))")
     }
     
     func deleteAccount(){

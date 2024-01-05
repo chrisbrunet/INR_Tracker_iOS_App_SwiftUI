@@ -16,11 +16,13 @@ class ProfileViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        print("CONSOLE-DEBUG: ProfileViewModel init() called")
         setupSubscribers()
-        print("CONSOLE-DEBUG: ProfileViewModel init() currentUser is \(String(describing: currentUser?.id))")
+        print("CONSOLE-DEBUG: ProfileViewModel init() completed, currentUser is \(String(describing: currentUser?.id))")
     }
     
     private func setupSubscribers() {
+        print("CONSOLE-DEBUG: ProfileViewModel setUpSubscribers() called")
         AuthService.shared.$currentUser
             .assign(to: \.currentUser, on: self) 
             .store(in: &cancellables)
