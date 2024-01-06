@@ -22,8 +22,8 @@ class TableViewModel: ObservableObject {
         
         Task {
             await DataService.shared.fetchTests()
+            setupSubscribers()
         }
-        setupSubscribers()
     }
     
     private func setupSubscribers() {

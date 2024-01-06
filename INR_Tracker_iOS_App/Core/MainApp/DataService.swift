@@ -17,6 +17,11 @@ class DataService: ObservableObject {
     @Published var chartData: [ChartPoint]?
     @Published var userSession: FirebaseAuth.User?
     
+    @Published var ninetyDaysData: [ChartPoint]?
+    @Published var oneYearData: [ChartPoint]?
+    @Published var chartMin: Double?
+    @Published var chartMax: Double?
+    
     static let shared = DataService()
     
     private var cancellables = Set<AnyCancellable>()
@@ -24,10 +29,6 @@ class DataService: ObservableObject {
     init() {
         print("CONSOLE-DEBUG: DataService init() called")
         setupSubscribers()
-        Task {
-            print("CONSOLE-DEBUG: DataService init() calling fetchTests")
-            await fetchTests()
-        }
     }
     
     private func setupSubscribers() {
@@ -54,6 +55,10 @@ class DataService: ObservableObject {
         self.chartData = tests.compactMap { test in
             return ChartPoint(date: test.date, reading: test.reading)
         }
+        
+        if self.tests!.count > 0 {
+            prepareChartData()
+        }
         print("CONSOLE-DEBUG: DataService fetchTests completed. \(tests.count) tests found")
     }
     
@@ -66,6 +71,7 @@ class DataService: ObservableObject {
             try await Firestore.firestore().collection("tests").document(test.id).setData(encodedTest)
             print("CONSOLE-DEBUG: Test Created: \(test)")
             
+            print("CONSOLE-DEBUG: DataService create test calling fetchTests")
             await fetchTests()
         } catch {
             print("CONSOLE-DEBUG: Failed to create test with error: \(error.localizedDescription)")
@@ -103,4 +109,27 @@ class DataService: ObservableObject {
             print("CONSOLE-DEBUG: Failed to delete test with error: \(error.localizedDescription)")
         }
     }
+    
+    func prepareChartData(){
+            print("CONSOLE-DEBUG: Dataservice prepareCharData called")
+            self.ninetyDaysData = filterTestsLastNDays(days: 90, tests: chartData!)
+            self.oneYearData = filterTestsLastNDays(days: 365, tests: chartData!)
+    
+            let readings = chartData!.map { $0.reading }
+            let minINRidx = chartData!.firstIndex { $0.reading == readings.min() } ?? 0
+            let maxINRidx = chartData!.firstIndex { $0.reading == readings.max() } ?? 0
+    
+            self.chartMin = chartData![minINRidx].reading
+            self.chartMax = chartData![maxINRidx].reading
+    
+            print("CONSOLE-DEBUG: PrepareChartData completed. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
+        }
+    
+        func filterTestsLastNDays(days: Int, tests: [ChartPoint]) -> [ChartPoint] {
+            let currentDate = Date()
+            let nDaysAgo = Calendar.current.date(byAdding: .day, value: -(days), to: currentDate)!
+            let filteredTests = tests.filter { $0.date >= nDaysAgo && $0.date <= currentDate }
+            return filteredTests
+        }
+    
 }

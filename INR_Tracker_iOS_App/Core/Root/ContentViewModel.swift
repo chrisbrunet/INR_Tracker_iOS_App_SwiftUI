@@ -12,9 +12,10 @@ import Combine
 @MainActor
 class ContentViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
+    @Published var selectedTab = 1
     
     private var cancellables = Set<AnyCancellable>()
-    
+        
     init() {
         print("CONSOLE-DEBUG: ContentViewModel init() called.")
         setupSubscribers()

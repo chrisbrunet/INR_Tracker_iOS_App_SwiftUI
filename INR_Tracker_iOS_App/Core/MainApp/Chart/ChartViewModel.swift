@@ -17,7 +17,6 @@ class ChartViewModel: ObservableObject {
     
     @Published var ninetyDaysData: [ChartPoint]?
     @Published var oneYearData: [ChartPoint]?
-    @Published var allTimeData: [ChartPoint]?
         
     @Published var chartMin: Double?
     @Published var chartMax: Double?
@@ -26,14 +25,8 @@ class ChartViewModel: ObservableObject {
     
     init() {
         print("CONSOLE-DEBUG: ChartViewModel init() called")
-        Task {
-            print("CONSOLE-DEBUG: ChartViewModel init() calling DataService fetchTests")
-            await DataService.shared.fetchTests()
-            print("CONSOLE-DEBUG: ChartViewModel init() calling setupSubscribers")
-            setupSubscribers()
-            print("CONSOLE-DEBUG: ChartViewModel init() calling prepareChartData")
-            prepareChartData()
-        }
+        print("CONSOLE-DEBUG: ChartViewModel init() calling setupSubscribers")
+        setupSubscribers()
     }
     
     private func setupSubscribers() {
@@ -41,28 +34,26 @@ class ChartViewModel: ObservableObject {
         DataService.shared.$chartData
             .assign(to: \.chartData, on: self)
             .store(in: &cancellables)
+        
+        DataService.shared.$ninetyDaysData
+            .assign(to: \.ninetyDaysData, on: self)
+            .store(in: &cancellables)
+        
+        DataService.shared.$oneYearData
+            .assign(to: \.oneYearData, on: self)
+            .store(in: &cancellables)
+        
+        DataService.shared.$chartMin
+            .assign(to: \.chartMin, on: self)
+            .store(in: &cancellables)
+        
+        DataService.shared.$chartMax
+            .assign(to: \.chartMax, on: self)
+            .store(in: &cancellables)
     }
     
-    func prepareChartData(){
-        print("CONSOLE-DEBUG: ChartViewModel prepareCharData called")
-        self.ninetyDaysData = filterTestsLastNDays(days: 90, tests: chartData!)
-        self.oneYearData = filterTestsLastNDays(days: 365, tests: chartData!)
-        
-        let readings = chartData!.map { $0.reading }
-        let minINRidx = chartData!.firstIndex { $0.reading == readings.min() } ?? 0
-        let maxINRidx = chartData!.firstIndex { $0.reading == readings.max() } ?? 0
-
-        self.chartMin = chartData![minINRidx].reading
-        self.chartMax = chartData![maxINRidx].reading
-        
-        print("CONSOLE-DEBUG: PrePareChartData completed. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
-    }
-    
-    func filterTestsLastNDays(days: Int, tests: [ChartPoint]) -> [ChartPoint] {
-        let currentDate = Date()
-        let nDaysAgo = Calendar.current.date(byAdding: .day, value: -(days), to: currentDate)!
-        let filteredTests = tests.filter { $0.date >= nDaysAgo && $0.date <= currentDate }
-        return filteredTests
+    func testFunc() {
+        print("CONSOLE-DEBUG: ChartView onAppear called: chartMin: \(String(describing: chartMin)), chartMax: \(String(describing: chartMax)), oneYearData: \(String(describing: oneYearData?.count))")
     }
 }
 

@@ -19,20 +19,27 @@ struct TableView: View {
         NavigationStack{
             VStack {
                 if let data = viewModel.tests {
-                    List {
-                        ForEach(data) { test in
-                            let formattedDate = formattedDate(test.date)
-                            TableRowView(reading: test.reading, date: formattedDate)
-                                .onTapGesture {
-                                    selectedTest = test
-                                    isUpdateView = true
-                                    showNewView.toggle()
-                                }
+                    if data.count == 0 {
+                        VStack {
+                            Text("No Data")
+                            Text("Select 'New Test' to add data")
                         }
+                    } else {
+                        List {
+                            ForEach(data) { test in
+                                let formattedDate = formattedDate(test.date)
+                                TableRowView(reading: test.reading, date: formattedDate)
+                                    .onTapGesture {
+                                        selectedTest = test
+                                        isUpdateView = true
+                                        showNewView.toggle()
+                                    }
+                            }
+                        }
+                        .listStyle(PlainListStyle())
                     }
-                    .listStyle(PlainListStyle())
                 } else {
-                    Text("No Tests")
+                    ProgressView()
                 }
             } // end scroll view
             .fullScreenCover(isPresented: $showNewView, content: {
