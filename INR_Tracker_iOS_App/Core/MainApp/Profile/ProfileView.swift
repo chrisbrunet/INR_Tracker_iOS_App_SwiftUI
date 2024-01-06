@@ -51,6 +51,27 @@ struct ProfileView: View {
                         
                     }
                     
+                    Section("Health"){
+                        HStack{
+                            SettingsRowView(imageName: "gauge.with.dots.needle.33percent", title: "Therapeutic Range", tintColor: Color(.systemGray))
+                            Spacer()
+                            
+                            Text("2.0 - 3.5")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        HStack{
+                            SettingsRowView(imageName: "pill.circle", title: "Current Dose", tintColor: Color(.systemGray))
+                            Spacer()
+
+                            Text("56 mg/week")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        
+                    }
+                    
                     Section("Account"){
                         
                         Button {
