@@ -6,7 +6,7 @@ Inspired by my requirement for lifetime anticoagulation medication, I developed 
 
 To get feet wet with mobile application development, I utilized Storyboard to create basic app UI then connected this app to my MongoDB database using API endpoints from my Node.js server. 
 
-![First Iteration Gif](https://link-url-here.org)
+![First Iteration Gif](iteration_1.gif)
 
 [Check out the GitHub repository for this iteration](https://github.com/chrisbrunet/INR_Tracker_iOS_App.git)
 
@@ -16,4 +16,4 @@ While this iteration was successful, I felt limited by Storyboard to continue ex
 
 In this iteration I essentially started from stractch, using Firebase to manage authentication, user information and data. This iteration features a much more comprehensive user interface with the ability to easily add new features to the app. 
 
-![Second Iteration Gif](https://link-url-here.org)
+![Second Iteration Gif](iteration_2.gif)
