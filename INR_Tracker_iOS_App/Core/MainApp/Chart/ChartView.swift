@@ -86,11 +86,16 @@ struct ChartView: View {
                                             
                                             // shows viertical line with card showing INR reading when currentActiveItem is not null and is equal to the date of the current point
                                             if let currentActiveItem, currentActiveItem.id == dataPoint.id {
+                                                let date = formattedDate(currentActiveItem.date)
+                                                
                                                 RuleMark(x: .value("Date", currentActiveItem.date))
                                                     .lineStyle(.init(lineWidth: 2, dash: [2], dashPhase: 5))
                                                     .annotation(position: .top){
                                                         VStack(alignment: .leading, spacing: 6){
-                                                            Text("INR")
+//                                                            Text("INR")
+//                                                                .font(.caption)
+//                                                                .foregroundColor(.gray)
+                                                            Text(String(date))
                                                                 .font(.caption)
                                                                 .foregroundColor(.gray)
                                                             Text(String(currentActiveItem.reading))
@@ -317,6 +322,12 @@ struct ChartView: View {
         default:
             chartData = viewModel.chartData
         }
+    }
+    
+    func formattedDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd yyyy"
+        return dateFormatter.string(from: date)
     }
 }
 

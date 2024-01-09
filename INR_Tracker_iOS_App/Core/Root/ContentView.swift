@@ -16,25 +16,22 @@ struct ContentView: View {
             if viewModel.userSession == nil {
                 LoginView()
             } else {
-                TabView(selection: $viewModel.selectedTab){
-                    ChartView()
-                        .tabItem() {
-                            Image(systemName: "chart.bar")
-                            Text("Chart")
-                        }
-                        .tag(0)
+                TabView(){
                     TableView()
                         .tabItem() {
                             Image(systemName: "list.bullet")
                             Text("Table")
                         }
-                        .tag(1)
+                    ChartView()
+                        .tabItem() {
+                            Image(systemName: "chart.bar")
+                            Text("Chart")
+                        }
                     ProfileView()
                         .tabItem() {
                             Image(systemName: "person.fill")
                             Text("Profile")
                         }
-                        .tag(2)
                 }
             }
         }
