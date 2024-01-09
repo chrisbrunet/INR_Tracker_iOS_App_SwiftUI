@@ -13,6 +13,10 @@ import Combine
 @MainActor
 class TableViewModel: ObservableObject {
     
+    @Published var showNewView = false
+    @Published var isUpdateView = false
+    @Published var selectedTest: Test?
+    
     @Published var tests: [Test]?
     
     private var cancellables = Set<AnyCancellable>()

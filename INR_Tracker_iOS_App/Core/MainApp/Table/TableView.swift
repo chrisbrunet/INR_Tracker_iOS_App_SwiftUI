@@ -10,10 +10,6 @@ import SwiftUI
 struct TableView: View {
     
     @StateObject var viewModel = TableViewModel()
-    
-    @State var showNewView = false
-    @State var isUpdateView = false
-    @State var selectedTest: Test?
 
     var body: some View {
         NavigationStack{
@@ -30,9 +26,9 @@ struct TableView: View {
                                 let formattedDate = formattedDate(test.date)
                                 TableRowView(reading: test.reading, date: formattedDate)
                                     .onTapGesture {
-                                        selectedTest = test
-                                        isUpdateView = true
-                                        showNewView.toggle()
+                                        viewModel.selectedTest = test
+                                        viewModel.isUpdateView = true
+                                        viewModel.showNewView.toggle()
                                     }
                             }
                         }
@@ -42,10 +38,10 @@ struct TableView: View {
                     ProgressView()
                 }
             } // end scroll view
-            .fullScreenCover(isPresented: $showNewView, content: {
-                if (selectedTest != nil) && (isUpdateView == true) {
-                    UpdateTestView(selectedTest: $selectedTest)
-                } else if (selectedTest == nil) && (isUpdateView == false) {
+            .fullScreenCover(isPresented: $viewModel.showNewView, content: {
+                if (viewModel.selectedTest != nil) && (viewModel.isUpdateView == true) {
+                    UpdateTestView(selectedTest: $viewModel.selectedTest)
+                } else if (viewModel.selectedTest == nil) && (viewModel.isUpdateView == false) {
                     NewTestView()
                 }
             })
@@ -58,9 +54,9 @@ struct TableView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        selectedTest = nil
-                        isUpdateView = false
-                        showNewView.toggle()
+                        viewModel.selectedTest = nil
+                        viewModel.isUpdateView = false
+                        viewModel.showNewView.toggle()
                     } label: {
                         HStack{
                             Text("New Test")
