@@ -110,26 +110,59 @@ class DataService: ObservableObject {
         }
     }
     
+    func setCurrentTR(min: Double, max: Double) async throws {
+        do {
+            print("CONSOLE-DEBUG: DataService setCurrentTR called")
+            guard let uid = self.userSession?.uid else { return }
+            try await Firestore.firestore()
+                .collection("users")
+                .document(uid)
+                .updateData(["minTR": min,
+                             "maxTR": max])
+            print("CONSOLE-DEBUG: User Therapeutic Range Updated to \(min) - \(max)")
+            
+            await AuthService.shared.fetchUser()
+        } catch {
+            print("CONSOLE-DEBUG: Failed to update user therapeutic range with error: \(error.localizedDescription)")
+        }
+    }
+    
+    func setCurrentDose(dose: Double) async throws {
+        do {
+            print("CONSOLE-DEBUG: DataService setCurrentDose called")
+            guard let uid = self.userSession?.uid else { return }
+            try await Firestore.firestore()
+                .collection("users")
+                .document(uid)
+                .updateData(["dose": dose])
+            print("CONSOLE-DEBUG: User Current Dose Updated to \(dose)")
+            
+            await AuthService.shared.fetchUser()
+        } catch {
+            print("CONSOLE-DEBUG: Failed to update user therapeutic range with error: \(error.localizedDescription)")
+        }
+    }
+    
     func prepareChartData(){
-            print("CONSOLE-DEBUG: Dataservice prepareCharData called")
-            self.ninetyDaysData = filterTestsLastNDays(days: 90, tests: chartData!)
-            self.oneYearData = filterTestsLastNDays(days: 365, tests: chartData!)
+        print("CONSOLE-DEBUG: Dataservice prepareCharData called")
+        self.ninetyDaysData = filterTestsLastNDays(days: 90, tests: chartData!)
+        self.oneYearData = filterTestsLastNDays(days: 365, tests: chartData!)
+
+        let readings = chartData!.map { $0.reading }
+        let minINRidx = chartData!.firstIndex { $0.reading == readings.min() } ?? 0
+        let maxINRidx = chartData!.firstIndex { $0.reading == readings.max() } ?? 0
+
+        self.chartMin = chartData![minINRidx].reading
+        self.chartMax = chartData![maxINRidx].reading
+
+        print("CONSOLE-DEBUG: PrepareChartData completed. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
+    }
     
-            let readings = chartData!.map { $0.reading }
-            let minINRidx = chartData!.firstIndex { $0.reading == readings.min() } ?? 0
-            let maxINRidx = chartData!.firstIndex { $0.reading == readings.max() } ?? 0
-    
-            self.chartMin = chartData![minINRidx].reading
-            self.chartMax = chartData![maxINRidx].reading
-    
-            print("CONSOLE-DEBUG: PrepareChartData completed. chartData: \(chartData!.count), oneYearData: \(oneYearData!.count), ninetyDaysData: \(ninetyDaysData!.count)")
-        }
-    
-        func filterTestsLastNDays(days: Int, tests: [ChartPoint]) -> [ChartPoint] {
-            let currentDate = Date()
-            let nDaysAgo = Calendar.current.date(byAdding: .day, value: -(days), to: currentDate)!
-            let filteredTests = tests.filter { $0.date >= nDaysAgo && $0.date <= currentDate }
-            return filteredTests
-        }
+    func filterTestsLastNDays(days: Int, tests: [ChartPoint]) -> [ChartPoint] {
+        let currentDate = Date()
+        let nDaysAgo = Calendar.current.date(byAdding: .day, value: -(days), to: currentDate)!
+        let filteredTests = tests.filter { $0.date >= nDaysAgo && $0.date <= currentDate }
+        return filteredTests
+    }
     
 }

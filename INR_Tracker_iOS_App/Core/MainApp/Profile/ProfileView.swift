@@ -51,25 +51,79 @@ struct ProfileView: View {
                         
                     }
                     
-                    Section("Health"){
-                        HStack{
-                            SettingsRowView(imageName: "gauge.with.dots.needle.33percent", title: "Therapeutic Range", tintColor: Color(.systemGray))
-                            Spacer()
+                    if let user = viewModel.currentUser {
+                        let min = Double(round(100 * user.minTR) / 100)
+                        let max = Double(round(100 * user.maxTR) / 100)
+                        let dose = Double(round(100 * user.dose) / 100)
+                        Section("Health"){
+                            HStack{
+                                SettingsRowView(imageName: "gauge.with.dots.needle.33percent", title: "Therapeutic Range", tintColor: Color(.systemGreen))
+                                Spacer()
+                                
+                                Text("\(String(describing: min)) - \(String(describing: max))")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                            }
+                            .onTapGesture {
+                                viewModel.showTRAlert.toggle()
+                            }
                             
-                            Text("2.0 - 3.5")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                            HStack{
+                                SettingsRowView(imageName: "pill.circle", title: "Current Dose", tintColor: Color(.systemGreen))
+                                Spacer()
+                                
+                                
+                                Text("\(String(describing: dose)) mg/week")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                                
+                            }
+                            .onTapGesture {
+                                viewModel.showDoseAlert.toggle()
+                            }
+                            
                         }
-                        
-                        HStack{
-                            SettingsRowView(imageName: "pill.circle", title: "Current Dose", tintColor: Color(.systemGray))
-                            Spacer()
-
-                            Text("56 mg/week")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                    } else {
+                        Section("Health"){
+                            HStack{
+                                SettingsRowView(imageName: "gauge.with.dots.needle.33percent", title: "Therapeutic Range", tintColor: Color(.systemGreen))
+                                Spacer()
+                                
+                                Text("none")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                            }
+                            .onTapGesture {
+                                viewModel.showTRAlert.toggle()
+                            }
+                            
+                            HStack{
+                                SettingsRowView(imageName: "pill.circle", title: "Current Dose", tintColor: Color(.systemGreen))
+                                Spacer()
+                                
+                                
+                                Text("none")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                                
+                            }
+                            .onTapGesture {
+                                viewModel.showDoseAlert.toggle()
+                            }
+                            
                         }
-                        
                     }
                     
                     Section("Account"){
@@ -89,7 +143,35 @@ struct ProfileView: View {
                         
                     }
                     
-                }
+                } // end of list
+                .alert("Therapeutic Range", isPresented: $viewModel.showTRAlert, actions: {
+                    TextField("Minimum INR", text: $viewModel.minTR)
+                        .keyboardType(.decimalPad)
+                    TextField("Maximum INR", text: $viewModel.maxTR)
+                        .keyboardType(.decimalPad)
+                    
+                    Button("Submit", action: {
+                        Task {
+                            try await viewModel.setCurrentTR()
+                        }
+                    })
+                    Button("Cancel", role: .cancel, action: {})
+                }, message: {
+                    Text("Please enter your minimum and maximum INR range")
+                })
+                .alert("Current Dose", isPresented: $viewModel.showDoseAlert, actions: {
+                    TextField("Dose (mg/week)", text: $viewModel.currentDose)
+                        .keyboardType(.decimalPad)
+                    
+                    Button("Submit", action: {
+                        Task {
+                            try await viewModel.setCurrentDose()
+                        }
+                    })
+                    Button("Cancel", role: .cancel, action: {})
+                }, message: {
+                    Text("Please enter your current weekly Warfarin dose")
+                })
             } else {
                 ProgressView()
             }

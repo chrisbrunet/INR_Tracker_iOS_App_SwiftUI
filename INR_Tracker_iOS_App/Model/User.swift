@@ -13,6 +13,10 @@ struct User: Identifiable, Codable {
     let fullName: String
     let email: String
     
+    var dose: Double = 0
+    var minTR: Double = 0
+    var maxTR: Double = 0
+    
     var id: String {
         return userId ?? NSUUID().uuidString
     }
