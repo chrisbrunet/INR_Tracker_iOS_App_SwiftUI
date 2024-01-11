@@ -23,6 +23,21 @@ struct NewTestView: View {
                             .keyboardType(.decimalPad)
                     }
                     
+                    if let user = viewModel.currentUser {
+                        Section(header: Text("Dose (mg/week)")) {
+                            TextField("ex. 56", text: $viewModel.dose)
+                                .keyboardType(.decimalPad)
+                        }
+                        .onAppear{
+                            viewModel.dose = String(describing: user.dose)
+                        }
+                    } else {
+                        Section(header: Text("Dose (mg/week)")) {
+                            TextField("ex. 56", text: $viewModel.dose)
+                                .keyboardType(.decimalPad)
+                        }
+                    }
+                    
                     Section(header: Text("Notes")) {
                         TextField("Add notes here", text: $viewModel.notes)
                     }
@@ -70,7 +85,8 @@ struct NewTestView: View {
 
 extension NewTestView: TestFormProtocol {
     var formIsValid: Bool {
-        return !viewModel.reading.isEmpty
+        return !viewModel.reading.isEmpty &&
+        !viewModel.dose.isEmpty
     }
 }
 

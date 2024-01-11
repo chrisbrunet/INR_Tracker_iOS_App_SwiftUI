@@ -62,11 +62,11 @@ class DataService: ObservableObject {
         print("CONSOLE-DEBUG: DataService fetchTests completed. \(tests.count) tests found")
     }
     
-    func createTest(date: Date, reading: Double, notes: String) async throws {
+    func createTest(date: Date, reading: Double, notes: String, dose: Double) async throws {
         do {
             print("CONSOLE-DEBUG: DataService createTest called")
             guard let uid = self.userSession?.uid else { return }
-            let test = Test(userId: uid, date: date, reading: reading, notes: notes)
+            let test = Test(userId: uid, date: date, reading: reading, notes: notes, dose: dose)
             let encodedTest = try Firestore.Encoder().encode(test)
             try await Firestore.firestore().collection("tests").document(test.id).setData(encodedTest)
             print("CONSOLE-DEBUG: Test Created: \(test)")
@@ -86,7 +86,8 @@ class DataService: ObservableObject {
                 .document(test.id)
                 .updateData(["reading": test.reading,
                              "notes": test.notes,
-                             "date": test.date])
+                             "date": test.date,
+                             "dose": test.dose])
             print("CONSOLE-DEBUG: Test Updated: \(test)")
             
             await fetchTests()

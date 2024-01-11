@@ -14,6 +14,7 @@ struct Test: Codable, Identifiable {
     var date: Date
     var reading: Double
     var notes: String
+    var dose: Double
     
     var id: String {
         return testId ?? NSUUID().uuidString

@@ -17,6 +17,7 @@ struct UpdateTestView: View {
     @State private var testDate = Date()
     @State private var reading = ""
     @State private var notes = ""
+    @State private var dose = ""
         
     @Environment(\.dismiss) var dismiss
     
@@ -34,6 +35,11 @@ struct UpdateTestView: View {
                     
                     Section(header: Text("Reading")) {
                         TextField("ex. 2.5", text: $reading)
+                            .keyboardType(.decimalPad)
+                    }
+                    
+                    Section(header: Text("Dose (mg/week)")) {
+                        TextField("ex. 56", text: $dose)
                             .keyboardType(.decimalPad)
                     }
                     
@@ -83,6 +89,7 @@ struct UpdateTestView: View {
                     testDate = selectedTest.date
                     reading = String(selectedTest.reading)
                     notes = selectedTest.notes
+                    dose = String(selectedTest.dose)
                 }
             }
         }
@@ -93,6 +100,7 @@ struct UpdateTestView: View {
         updatedTest.date = testDate
         updatedTest.reading = Double(reading) ?? 0.0
         updatedTest.notes = notes
+        updatedTest.dose = Double(dose) ?? 0.0
         
         Task {
             do {
