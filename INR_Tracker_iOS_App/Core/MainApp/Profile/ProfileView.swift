@@ -10,6 +10,9 @@ import SwiftUI
 struct ProfileView: View {
     
     @StateObject var viewModel = ProfileViewModel()
+    @State var currentMinTR = ""
+    @State var currentMaxTR = ""
+    @State var currentDose = ""
     
     var body: some View {
         NavigationStack {
@@ -145,14 +148,18 @@ struct ProfileView: View {
                     
                 } // end of list
                 .alert("Therapeutic Range", isPresented: $viewModel.showTRAlert, actions: {
-                    TextField("Minimum INR", text: $viewModel.minTR)
+                    TextField("Minimum INR", text: $currentMinTR)
                         .keyboardType(.decimalPad)
-                    TextField("Maximum INR", text: $viewModel.maxTR)
+                    TextField("Maximum INR", text: $currentMaxTR)
                         .keyboardType(.decimalPad)
                     
                     Button("Submit", action: {
                         Task {
+                            viewModel.minTR = currentMinTR
+                            viewModel.maxTR = currentMaxTR
                             try await viewModel.setCurrentTR()
+                            currentMinTR = ""
+                            currentMaxTR = ""
                         }
                     })
                     Button("Cancel", role: .cancel, action: {})
@@ -160,12 +167,14 @@ struct ProfileView: View {
                     Text("Please enter your minimum and maximum INR range")
                 })
                 .alert("Current Dose", isPresented: $viewModel.showDoseAlert, actions: {
-                    TextField("Dose (mg/week)", text: $viewModel.currentDose)
+                    TextField("Dose (mg/week)", text: $currentDose)
                         .keyboardType(.decimalPad)
                     
                     Button("Submit", action: {
                         Task {
+                            viewModel.dose = currentDose
                             try await viewModel.setCurrentDose()
+                            currentDose = ""
                         }
                     })
                     Button("Cancel", role: .cancel, action: {})

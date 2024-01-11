@@ -18,7 +18,7 @@ class ProfileViewModel: ObservableObject {
     @Published var maxTR = "0"
     
     @Published var showDoseAlert = false
-    @Published var currentDose = "0"
+    @Published var dose = "0"
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -27,8 +27,8 @@ class ProfileViewModel: ObservableObject {
         setupSubscribers()
         minTR = "\(String(describing: currentUser?.minTR))"
         maxTR = "\(String(describing: currentUser?.maxTR))"
-        currentDose = "\(String(describing: currentUser?.dose))"
-        print("CONSOLE-DEBUG: ProfileViewModel init() completed, currentUser is \(String(describing: currentUser?.id)), dose is \(currentDose)")
+        dose = "\(String(describing: currentUser?.dose))"
+        print("CONSOLE-DEBUG: ProfileViewModel init() completed, currentUser is \(String(describing: currentUser?.id)), dose is \(dose)")
 
     }
     
@@ -44,7 +44,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     func setCurrentDose() async throws {
-        try await DataService.shared.setCurrentDose(dose: Double(currentDose)!)
+        try await DataService.shared.setCurrentDose(dose: Double(dose)!)
     }
     
     func setCurrentTR() async throws {
