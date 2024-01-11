@@ -44,10 +44,10 @@ class ProfileViewModel: ObservableObject {
     }
     
     func setCurrentDose() async throws {
-        try await DataService.shared.setCurrentDose(dose: Double(dose)!)
+        try await AuthService.shared.setCurrentDose(dose: Double(dose)!)
     }
     
     func setCurrentTR() async throws {
-        try await DataService.shared.setCurrentTR(min: Double(minTR)!, max: Double(maxTR)!)
+        try await AuthService.shared.setCurrentTR(min: Double(minTR)!, max: Double(maxTR)!)
     }
 }

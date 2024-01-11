@@ -88,4 +88,37 @@ class AuthService{
     func deleteAccount(){
         
     }
+    
+    func setCurrentTR(min: Double, max: Double) async throws {
+        do {
+            print("CONSOLE-DEBUG: DataService setCurrentTR called")
+            guard let uid = self.userSession?.uid else { return }
+            try await Firestore.firestore()
+                .collection("users")
+                .document(uid)
+                .updateData(["minTR": min,
+                             "maxTR": max])
+            print("CONSOLE-DEBUG: User Therapeutic Range Updated to \(min) - \(max)")
+            
+            await AuthService.shared.fetchUser()
+        } catch {
+            print("CONSOLE-DEBUG: Failed to update user therapeutic range with error: \(error.localizedDescription)")
+        }
+    }
+    
+    func setCurrentDose(dose: Double) async throws {
+        do {
+            print("CONSOLE-DEBUG: DataService setCurrentDose called")
+            guard let uid = self.userSession?.uid else { return }
+            try await Firestore.firestore()
+                .collection("users")
+                .document(uid)
+                .updateData(["dose": dose])
+            print("CONSOLE-DEBUG: User Current Dose Updated to \(dose)")
+            
+            await AuthService.shared.fetchUser()
+        } catch {
+            print("CONSOLE-DEBUG: Failed to update user therapeutic range with error: \(error.localizedDescription)")
+        }
+    }
 }

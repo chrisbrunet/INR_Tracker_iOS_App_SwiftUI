@@ -8,12 +8,18 @@
 import SwiftUI
 
 struct TableRowView: View {
+    
     let reading: Double
     let date: String
+    let minTR: Double
+    let maxTR: Double
     
     var body: some View {
+        
+        let pad = (maxTR - minTR) * 0.25
+        
         HStack{
-            if reading < 2.0 || reading > 3.5 {
+            if reading < minTR || reading > maxTR {
                 Text(String(reading))
                     .font(.title)
                     .fontWeight(.semibold)
@@ -25,7 +31,7 @@ struct TableRowView: View {
                 Text("Outside of therapeutic range")
                     .font(.subheadline)
                 
-            } else if reading >= 2.5 && reading <= 3 {
+            } else if reading >= minTR + pad && reading <= maxTR - pad {
                 Text(String(reading))
                     .font(.title)
                     .fontWeight(.semibold)
@@ -36,8 +42,8 @@ struct TableRowView: View {
                 
                 Text("Well within therepeutic range")
                     .font(.subheadline)
-            } else if (reading >= 2 && reading < 2.5) ||
-                    (reading > 3 && reading <= 3.5) {
+            } else if (reading >= minTR && reading < minTR + pad) ||
+                        (reading > maxTR - pad && reading <= maxTR) {
                 Text(String(reading))
                     .font(.title)
                     .fontWeight(.semibold)
@@ -62,5 +68,5 @@ struct TableRowView: View {
 }
 
 #Preview {
-    TableRowView(reading: 3.1, date: "2023-12-11")
+    TableRowView(reading: 3.1, date: "2023-12-11", minTR: 2.0, maxTR: 3.5)
 }

@@ -18,6 +18,7 @@ class TableViewModel: ObservableObject {
     @Published var selectedTest: Test?
     
     @Published var tests: [Test]?
+    @Published var currentUser: User?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -33,6 +34,10 @@ class TableViewModel: ObservableObject {
     private func setupSubscribers() {
         DataService.shared.$tests
             .assign(to: \.tests, on: self)
+            .store(in: &cancellables)
+        
+        AuthService.shared.$currentUser
+            .assign(to: \.currentUser, on: self)
             .store(in: &cancellables)
     }
 }

@@ -21,18 +21,20 @@ struct TableView: View {
                             Text("Select 'New Test' to add data")
                         }
                     } else {
-                        List {
-                            ForEach(data) { test in
-                                let formattedDate = formattedDate(test.date)
-                                TableRowView(reading: test.reading, date: formattedDate)
-                                    .onTapGesture {
-                                        viewModel.selectedTest = test
-                                        viewModel.isUpdateView = true
-                                        viewModel.showNewView.toggle()
-                                    }
+                        if let user = viewModel.currentUser {
+                            List {
+                                ForEach(data) { test in
+                                    let formattedDate = formattedDate(test.date)
+                                    TableRowView(reading: test.reading, date: formattedDate, minTR: user.minTR, maxTR: user.maxTR)
+                                        .onTapGesture {
+                                            viewModel.selectedTest = test
+                                            viewModel.isUpdateView = true
+                                            viewModel.showNewView.toggle()
+                                        }
+                                }
                             }
+                            .listStyle(PlainListStyle())
                         }
-                        .listStyle(PlainListStyle())
                     }
                 } else {
                     ProgressView()

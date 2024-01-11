@@ -92,9 +92,6 @@ struct ChartView: View {
                                                     .lineStyle(.init(lineWidth: 2, dash: [2], dashPhase: 5))
                                                     .annotation(position: .top){
                                                         VStack(alignment: .leading, spacing: 6){
-//                                                            Text("INR")
-//                                                                .font(.caption)
-//                                                                .foregroundColor(.gray)
                                                             Text(String(date))
                                                                 .font(.caption)
                                                                 .foregroundColor(.gray)
@@ -146,34 +143,38 @@ struct ChartView: View {
                                         }
                                         
                                         // overlays therepeutic range as lines if toggle is selected
-                                        if trToggle {
-                                            RuleMark(y: .value("MinTR", 2))
-                                                .foregroundStyle(.red)
-                                                .annotation(position: .bottom,
-                                                            alignment: .bottomLeading) {
-                                                    Text("TR Min: 2.0")
-                                                        .fontWeight(.bold)
-                                                        .padding(.horizontal, 10)
-                                                        .padding(.vertical, 4)
-                                                        .background{
-                                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                                .fill(.white.shadow(.drop(radius: 2)))
-                                                        }
-                                                }
-                                            
-                                            RuleMark(y: .value("MaxTR", 3.5))
-                                                .foregroundStyle(.red)
-                                                .annotation(position: .top,
-                                                            alignment: .bottomLeading) {
-                                                    Text("TR Max: 3.5")
-                                                        .fontWeight(.bold)
-                                                        .padding(.horizontal, 10)
-                                                        .padding(.vertical, 4)
-                                                        .background{
-                                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                                .fill(.white.shadow(.drop(radius: 2)))
-                                                        }
-                                                }
+                                        if let user = viewModel.currentUser{
+                                            let minTR = Double(round(100 * user.minTR) / 100)
+                                            let maxTR = Double(round(100 * user.maxTR) / 100)
+                                            if trToggle {
+                                                RuleMark(y: .value("MinTR", minTR))
+                                                    .foregroundStyle(.red)
+                                                    .annotation(position: .bottom,
+                                                                alignment: .bottomLeading) {
+                                                        Text("TR Min: \(String(describing: minTR))")
+                                                            .fontWeight(.bold)
+                                                            .padding(.horizontal, 10)
+                                                            .padding(.vertical, 4)
+                                                            .background{
+                                                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                                    .fill(.white.shadow(.drop(radius: 2)))
+                                                            }
+                                                    }
+                                                
+                                                RuleMark(y: .value("MaxTR", maxTR))
+                                                    .foregroundStyle(.red)
+                                                    .annotation(position: .top,
+                                                                alignment: .bottomLeading) {
+                                                        Text("TR Max: \(String(describing: maxTR))")
+                                                            .fontWeight(.bold)
+                                                            .padding(.horizontal, 10)
+                                                            .padding(.vertical, 4)
+                                                            .background{
+                                                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                                    .fill(.white.shadow(.drop(radius: 2)))
+                                                            }
+                                                    }
+                                            }
                                         }
                                         
                                         // overlays average readings from current date filter as a line if toggle is selected
@@ -306,7 +307,6 @@ struct ChartView: View {
                 updateChartData(for: newTab)
             })
             .onAppear {
-                viewModel.testFunc()
                 chartData = viewModel.chartData
                 currentTab = "All Time"
             }

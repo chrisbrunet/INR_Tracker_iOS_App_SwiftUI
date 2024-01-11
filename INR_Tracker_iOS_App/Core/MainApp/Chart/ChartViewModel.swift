@@ -20,6 +20,8 @@ class ChartViewModel: ObservableObject {
         
     @Published var chartMin: Double?
     @Published var chartMax: Double?
+    
+    @Published var currentUser: User?
 
     private var cancellables = Set<AnyCancellable>()
     
@@ -50,10 +52,10 @@ class ChartViewModel: ObservableObject {
         DataService.shared.$chartMax
             .assign(to: \.chartMax, on: self)
             .store(in: &cancellables)
-    }
-    
-    func testFunc() {
-        print("CONSOLE-DEBUG: ChartView onAppear called: chartMin: \(String(describing: chartMin)), chartMax: \(String(describing: chartMax)), oneYearData: \(String(describing: oneYearData?.count))")
+        
+        AuthService.shared.$currentUser
+            .assign(to: \.currentUser, on: self)
+            .store(in: &cancellables)
     }
 }
 
