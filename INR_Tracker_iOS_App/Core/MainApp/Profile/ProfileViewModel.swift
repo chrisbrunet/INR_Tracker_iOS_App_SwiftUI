@@ -20,6 +20,10 @@ class ProfileViewModel: ObservableObject {
     @Published var showDoseAlert = false
     @Published var dose = "0"
     
+    @Published var showDeleteAlert = false
+    @Published var email = ""
+    @Published var password = ""
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -49,5 +53,9 @@ class ProfileViewModel: ObservableObject {
     
     func setCurrentTR() async throws {
         try await AuthService.shared.setCurrentTR(min: Double(minTR)!, max: Double(maxTR)!)
+    }
+    
+    func deleteAccount() async {
+        await AuthService.shared.deleteAccount(email: currentUser!.email, password: password)
     }
 }

@@ -138,7 +138,7 @@ struct ProfileView: View {
                         }
                         
                         Button {
-                            print("Deleting account...")
+                            viewModel.showDeleteAlert.toggle()
                         } label: {
                             SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: Color(.red))
                         }
@@ -180,6 +180,18 @@ struct ProfileView: View {
                     Button("Cancel", role: .cancel, action: {})
                 }, message: {
                     Text("Please enter your current weekly Warfarin dose")
+                })
+                .alert("Delete Account", isPresented: $viewModel.showDeleteAlert, actions: {
+                    SecureField("Password", text: $viewModel.password)
+                    
+                    Button("Delete", action: {
+                        Task {
+                            await viewModel.deleteAccount()
+                        }
+                    })
+                    Button("Cancel", role: .cancel, action: {})
+                }, message: {
+                    Text("Enter password to delete account. All test and user data will be permanently deleted.")
                 })
             } else {
                 ProgressView()

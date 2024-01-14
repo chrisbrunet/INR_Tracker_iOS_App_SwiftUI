@@ -82,11 +82,65 @@ class AuthService{
             .getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
 
-        print("CONSOLE-DEBUG: AuthService FetchUser completed. currentUser set to: \(String(describing: self.currentUser?.fullName))")
+        print("CONSOLE-DEBUG: AuthService fetchUser completed. currentUser set to: \(String(describing: self.currentUser?.fullName))")
     }
     
-    func deleteAccount(){
+    func deleteAccount(email: String, password: String) async {
+        print("CONSOLE-DEBUG: AuthService deleteAccount called")
+        guard let user = Auth.auth().currentUser else { return }
+        let uid = user.uid
         
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+        
+        do {
+            try await user.reauthenticate(with: credential)
+            print("CONSOLE-DEBUG: User successfully re-authenticated")
+        } catch {
+            print("CONSOLE-DEBUG: Error re-autenticating user: \(error.localizedDescription)")
+            return
+        }
+        
+        self.userSession = nil
+        self.currentUser = nil
+    
+        let snapshot = try? await Firestore.firestore()
+            .collection("tests")
+            .whereField("userId", isEqualTo: uid)
+            .getDocuments()
+        
+        let tests = snapshot!.documents.compactMap({ test in
+            try? test.data(as: Test.self) })
+        print("CONSOLE-DEBUG: \(tests.count) tests found")
+        
+        for test in tests {
+            do {
+                try await Firestore.firestore()
+                    .collection("tests")
+                    .document(test.id)
+                    .delete()
+            } catch {
+                print("CONSOLE-DEBUG: Error deleting test: \(error.localizedDescription)")
+            }
+        }
+        
+        print("CONSOLE-DEBUG: \(tests.count) tests deleted from tests collection")
+        
+        do {
+            try await Firestore.firestore()
+                .collection("users")
+                .document(uid)
+                .delete()
+            print("CONSOLE-DEBUG: User deleted from users collection")
+        } catch {
+            print("CONSOLE-DEBUG: Error deleting user: \(error.localizedDescription)")
+        }
+        
+        do {
+            try await user.delete()
+            print("CONSOLE-DEBUG: User account deleted")
+        } catch {
+            print("CONSOLE-DEBUG: Error deleting user account: \(error.localizedDescription)")
+        }
     }
     
     func setCurrentTR(min: Double, max: Double) async throws {
