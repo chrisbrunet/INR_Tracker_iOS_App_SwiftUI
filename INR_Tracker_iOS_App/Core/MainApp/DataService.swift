@@ -53,7 +53,7 @@ class DataService: ObservableObject {
         self.tests = tests
         
         self.chartData = tests.compactMap { test in
-            return ChartPoint(date: test.date, reading: test.reading)
+            return ChartPoint(date: test.date, reading: test.reading, dose: test.dose)
         }
         
         if self.tests!.count > 0 {

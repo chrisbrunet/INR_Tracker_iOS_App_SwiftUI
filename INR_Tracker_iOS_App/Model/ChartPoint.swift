@@ -10,6 +10,7 @@ import Foundation
 struct ChartPoint: Identifiable {
     var date: Date
     var reading: Double
+    var dose: Double
     var animate: Bool = false
     
     var id: Date {return date}

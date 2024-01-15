@@ -75,6 +75,13 @@ struct ChartView: View {
                                             )
                                             .interpolationMethod(.catmullRom)
                                             .symbol(.circle)
+                                            .foregroundStyle(by: .value("Value", "INR"))
+                                            
+                                            LineMark(x: .value("Date", dataPoint.date),
+                                                     y: .value("Dose", (dataPoint.dose - 50) / 3)
+                                            )
+                                            .interpolationMethod(.catmullRom)
+                                            .foregroundStyle(by: .value("Value", "Dose"))
                                             
                                             // adding shaded area under chart with gradient
                                             AreaMark(x: .value("Date", dataPoint.date),
@@ -198,6 +205,23 @@ struct ChartView: View {
                                 } // end vstack with picker and chart
                                 .padding()
                                 .chartYScale(domain: viewModel.chartMin! - 0.2 ... viewModel.chartMax! + 0.2)
+                                .chartForegroundStyleScale([
+                                            "INR": .blue,
+                                            "Dose": .orange
+                                ])
+                                .chartYAxis {
+                                    AxisMarks(position: .leading, values: Array(stride(from: viewModel.chartMin!, through: viewModel.chartMax! , by: 0.5))){
+                                        axis in
+                                        AxisTick()
+                                        AxisGridLine()
+                                        AxisValueLabel("\(axis.index)", centered: false)
+                                    }
+                                    AxisMarks(position: .trailing, values: Array(stride(from: viewModel.chartMin!, through: viewModel.chartMax!, by: 0.5))){
+                                        axis in
+                                        AxisTick()
+                                        AxisValueLabel("\(50 + (axis.index * 3))", centered: false)
+                                    }
+                                }
                                 // getting data from drag gesture and setting currentActiveItem
                                 .chartOverlay(content: {proxy in
                                     GeometryReader{innerProxy in
