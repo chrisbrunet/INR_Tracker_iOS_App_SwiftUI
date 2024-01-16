@@ -35,10 +35,21 @@ struct ChartView: View {
                     } else {
                         if var data = chartData {
                             // variables depeding on date filter
-                            let readings = data.map { $0.reading }
-                            let average = readings.reduce(0, +) / Double(readings.count)
-                            let min = data.firstIndex { $0.reading == readings.min() } ?? 0
-                            let max = data.firstIndex { $0.reading == readings.max() } ?? 0
+                            let yMin = viewModel.chartMin! - 0.2
+                            let yMax = viewModel.chartMax! + 0.2
+                            
+                            let inrReadings = data.map { $0.reading }
+                            let inrAverage = inrReadings.reduce(0, +) / Double(inrReadings.count)
+                            let inrMinIdx = data.firstIndex { $0.reading == inrReadings.min() } ?? 0
+                            let inrMaxIdx = data.firstIndex { $0.reading == inrReadings.max() } ?? 0
+                            let inrMin = data[inrMinIdx].reading
+                            let inrMax = data[inrMaxIdx].reading
+                            
+                            let doseReadings = data.map { $0.dose }
+                            let doseMinIdx = data.firstIndex { $0.dose == doseReadings.min() } ?? 0
+                            let doseMaxIdx = data.firstIndex { $0.dose == doseReadings.max() } ?? 0
+                            let doseMin = data[doseMinIdx].dose
+                            let doseMax = data[doseMaxIdx].dose
                             
                             // colour constants
                             let curColor = Color(hue: 0.6, saturation: 0.81, brightness: 0.76)
@@ -65,11 +76,12 @@ struct ChartView: View {
                                         .pickerStyle(.segmented)
                                         .padding()
                                     }
-                                    
-                                    
+                                                                        
                                     Chart {
                                         ForEach(data) { dataPoint in
                                             
+                                            let doseScaled = ((dataPoint.dose - doseMin) / (doseMax - doseMin)) * (inrMax - inrMin) + inrMin
+                                                                                        
                                             // creating line chart with smooth lines
                                             LineMark(x: .value("Date", dataPoint.date),
                                                      y: .value("INR", dataPoint.reading)
@@ -80,7 +92,7 @@ struct ChartView: View {
                                             
                                             // adding shaded area under chart with gradient
                                             AreaMark(x: .value("Date", dataPoint.date),
-                                                     yStart: .value("INR", viewModel.chartMin! - 0.2),
+                                                     yStart: .value("INR", yMin),
                                                      yEnd: .value("INR", dataPoint.reading)
                                             )
                                             .interpolationMethod(.catmullRom)
@@ -88,7 +100,7 @@ struct ChartView: View {
                                             
                                             if doseToggle {
                                                 LineMark(x: .value("Date", dataPoint.date),
-                                                         y: .value("Dose", (dataPoint.dose - 50) / 3)
+                                                         y: .value("Dose", doseScaled)
                                                 )
                                                 .interpolationMethod(.catmullRom)
                                                 .lineStyle(StrokeStyle(lineWidth: 4))
@@ -122,12 +134,12 @@ struct ChartView: View {
                                         
                                         // overlays minimum and maximum readings from current date filter as points if toggle is selected
                                         if minmaxToggle {
-                                            PointMark(x: .value("Date", data[min].date),
-                                                      y: .value("INR", data[min].reading))
+                                            PointMark(x: .value("Date", data[inrMinIdx].date),
+                                                      y: .value("INR", inrMin))
                                             .foregroundStyle(.red)
                                             .annotation(position: .bottom,
                                                         alignment: .center) {
-                                                Text("" + String(data[min].reading))
+                                                Text("" + String(inrMin))
                                                     .fontWeight(.bold)
                                                     .padding(.horizontal, 10)
                                                     .padding(.vertical, 4)
@@ -137,12 +149,12 @@ struct ChartView: View {
                                                     }
                                             }
                                             
-                                            PointMark(x: .value("Date", data[max].date),
-                                                      y: .value("INR", data[max].reading))
+                                            PointMark(x: .value("Date", data[inrMaxIdx].date),
+                                                      y: .value("INR", inrMax))
                                             .foregroundStyle(.red)
                                             .annotation(position: .top,
                                                         alignment: .center) {
-                                                Text("" + String(data[max].reading))
+                                                Text("" + String(inrMax))
                                                     .fontWeight(.bold)
                                                     .padding(.horizontal, 10)
                                                     .padding(.vertical, 4)
@@ -190,12 +202,12 @@ struct ChartView: View {
                                         
                                         // overlays average readings from current date filter as a line if toggle is selected
                                         if avgToggle {
-                                            RuleMark(y: .value("Average", average))
+                                            RuleMark(y: .value("Average", inrAverage))
                                                 .foregroundStyle(.green)
                                                 .lineStyle(StrokeStyle(lineWidth: 6, dash: [14,7]))
                                                 .annotation(position: .automatic,
                                                             alignment: .bottomLeading) {
-                                                    Text("Avg: " + String(format: "%.1f", average))
+                                                    Text("Avg: " + String(format: "%.1f", inrAverage))
                                                         .fontWeight(.bold)
                                                         .padding(.horizontal, 10)
                                                         .padding(.vertical, 4)
@@ -208,26 +220,26 @@ struct ChartView: View {
                                     } // end chart
                                 } // end vstack with picker and chart
                                 .padding()
-                                .chartYScale(domain: viewModel.chartMin! - 0.2 ... viewModel.chartMax! + 0.2)
+                                .chartYScale(domain: yMin ... yMax)
                                 .chartForegroundStyleScale([
                                             "INR": .blue,
                                             "Dose": .orange
                                 ])
-                                .chartYAxis {
-                                    AxisMarks(position: .leading, values: Array(stride(from: viewModel.chartMin!, through: viewModel.chartMax! , by: 0.5))){
-                                        axis in
-                                        AxisTick()
-                                        AxisGridLine()
-                                        AxisValueLabel("\(axis.index)", centered: false)
-                                    }
-                                    if doseToggle {
-                                        AxisMarks(position: .trailing, values: Array(stride(from: viewModel.chartMin!, through: viewModel.chartMax!, by: 0.5))){
-                                            axis in
-                                            AxisTick()
-                                            AxisValueLabel("\(50 + (axis.index * 3))", centered: false)
-                                        }
-                                    }
-                                }
+//                                .chartYAxis {
+//                                    AxisMarks(position: .leading, values: Array(stride(from: yMin, through: yMax , by: 0.5))){
+//                                        axis in
+//                                        AxisTick()
+//                                        AxisGridLine()
+//                                        AxisValueLabel("\(axis.index)", centered: false)
+//                                    }
+//                                    if doseToggle {
+//                                        AxisMarks(position: .trailing, values: Array(stride(from: yMin, through: yMax, by: 0.5))){
+//                                            axis in
+//                                            AxisTick()
+//                                            AxisValueLabel("\(50 + (axis.index * 3))", centered: false)
+//                                        }
+//                                    }
+//                                }
                                 // getting data from drag gesture and setting currentActiveItem
                                 .chartOverlay(content: {proxy in
                                     GeometryReader{innerProxy in
