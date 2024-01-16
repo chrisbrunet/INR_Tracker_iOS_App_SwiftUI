@@ -50,6 +50,8 @@ struct ChartView: View {
                             let doseMaxIdx = data.firstIndex { $0.dose == doseReadings.max() } ?? 0
                             let doseMin = data[doseMinIdx].dose
                             let doseMax = data[doseMaxIdx].dose
+//                            let doseMinScaled = inrMin
+//                            let doseMaxScaled = ((inrMax/2) - inrMin) + inrMin
                             
                             // colour constants
                             let curColor = Color(hue: 0.6, saturation: 0.81, brightness: 0.76)
@@ -80,7 +82,7 @@ struct ChartView: View {
                                     Chart {
                                         ForEach(data) { dataPoint in
                                             
-                                            let doseScaled = ((dataPoint.dose - doseMin) / (doseMax - doseMin)) * (inrMax - inrMin) + inrMin
+                                            let doseScaled = ((dataPoint.dose - doseMin) / (doseMax - doseMin)) * ((inrMax/2) - inrMin) + inrMin
                                                                                         
                                             // creating line chart with smooth lines
                                             LineMark(x: .value("Date", dataPoint.date),
@@ -100,9 +102,8 @@ struct ChartView: View {
                                             
                                             if doseToggle {
                                                 LineMark(x: .value("Date", dataPoint.date),
-                                                         y: .value("Dose", doseScaled)
+                                                        y: .value("Dose", doseScaled)
                                                 )
-                                                .interpolationMethod(.catmullRom)
                                                 .lineStyle(StrokeStyle(lineWidth: 4))
                                                 .foregroundStyle(by: .value("Value", "Dose"))
                                             }
@@ -112,22 +113,22 @@ struct ChartView: View {
                                                 let date = formattedDate(currentActiveItem.date)
                                                 
                                                 RuleMark(x: .value("Date", currentActiveItem.date))
-                                                    .lineStyle(.init(lineWidth: 2, dash: [2], dashPhase: 5))
-                                                    .annotation(position: .top){
-                                                        VStack(alignment: .leading, spacing: 6){
-                                                            Text(String(date))
-                                                                .font(.caption)
-                                                                .foregroundColor(.gray)
-                                                            Text(String(currentActiveItem.reading))
-                                                                .font(.title3.bold())
-                                                        }
-                                                        .padding(.horizontal, 10)
-                                                        .padding(.vertical, 4)
-                                                        .background{
-                                                            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                                                .fill(.white.shadow(.drop(radius: 2)))
-                                                        }
+                                                .lineStyle(.init(lineWidth: 2, dash: [2], dashPhase: 5))
+                                                .annotation(position: .top){
+                                                    VStack(alignment: .leading, spacing: 6){
+                                                        Text(String(date))
+                                                            .font(.caption)
+                                                            .foregroundColor(.gray)
+                                                        Text(String(currentActiveItem.reading))
+                                                            .font(.title3.bold())
                                                     }
+                                                    .padding(.horizontal, 10)
+                                                    .padding(.vertical, 4)
+                                                    .background{
+                                                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                                            .fill(.white.shadow(.drop(radius: 2)))
+                                                    }
+                                                }
                                             }
                                             
                                         }
@@ -226,17 +227,17 @@ struct ChartView: View {
                                             "Dose": .orange
                                 ])
 //                                .chartYAxis {
-//                                    AxisMarks(position: .leading, values: Array(stride(from: yMin, through: yMax , by: 0.5))){
+//                                    AxisMarks(position: .leading, values: Array(stride(from: 1, through: 4 , by: 1))){
 //                                        axis in
 //                                        AxisTick()
 //                                        AxisGridLine()
 //                                        AxisValueLabel("\(axis.index)", centered: false)
 //                                    }
 //                                    if doseToggle {
-//                                        AxisMarks(position: .trailing, values: Array(stride(from: yMin, through: yMax, by: 0.5))){
+//                                        AxisMarks(position: .trailing, values: Array(stride(from: 1, through: 4, by: 1))){
 //                                            axis in
 //                                            AxisTick()
-//                                            AxisValueLabel("\(50 + (axis.index * 3))", centered: false)
+//                                            AxisValueLabel("\(axis.index)", centered: false)
 //                                        }
 //                                    }
 //                                }
