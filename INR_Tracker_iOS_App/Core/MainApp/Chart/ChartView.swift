@@ -17,6 +17,7 @@ struct ChartView: View {
     @State private var trToggle = false
     @State private var avgToggle = false
     @State private var minmaxToggle = false
+    @State private var doseToggle = false
     @State private var currentTab = "All Time"
     @State var currentActiveItem: ChartPoint?
     
@@ -77,12 +78,6 @@ struct ChartView: View {
                                             .symbol(.circle)
                                             .foregroundStyle(by: .value("Value", "INR"))
                                             
-                                            LineMark(x: .value("Date", dataPoint.date),
-                                                     y: .value("Dose", (dataPoint.dose - 50) / 3)
-                                            )
-                                            .interpolationMethod(.catmullRom)
-                                            .foregroundStyle(by: .value("Value", "Dose"))
-                                            
                                             // adding shaded area under chart with gradient
                                             AreaMark(x: .value("Date", dataPoint.date),
                                                      yStart: .value("INR", viewModel.chartMin! - 0.2),
@@ -90,6 +85,15 @@ struct ChartView: View {
                                             )
                                             .interpolationMethod(.catmullRom)
                                             .foregroundStyle(curGradient)
+                                            
+                                            if doseToggle {
+                                                LineMark(x: .value("Date", dataPoint.date),
+                                                         y: .value("Dose", (dataPoint.dose - 50) / 3)
+                                                )
+                                                .interpolationMethod(.catmullRom)
+                                                .lineStyle(StrokeStyle(lineWidth: 4))
+                                                .foregroundStyle(by: .value("Value", "Dose"))
+                                            }
                                             
                                             // shows viertical line with card showing INR reading when currentActiveItem is not null and is equal to the date of the current point
                                             if let currentActiveItem, currentActiveItem.id == dataPoint.id {
@@ -216,10 +220,12 @@ struct ChartView: View {
                                         AxisGridLine()
                                         AxisValueLabel("\(axis.index)", centered: false)
                                     }
-                                    AxisMarks(position: .trailing, values: Array(stride(from: viewModel.chartMin!, through: viewModel.chartMax!, by: 0.5))){
-                                        axis in
-                                        AxisTick()
-                                        AxisValueLabel("\(50 + (axis.index * 3))", centered: false)
+                                    if doseToggle {
+                                        AxisMarks(position: .trailing, values: Array(stride(from: viewModel.chartMin!, through: viewModel.chartMax!, by: 0.5))){
+                                            axis in
+                                            AxisTick()
+                                            AxisValueLabel("\(50 + (axis.index * 3))", centered: false)
+                                        }
                                     }
                                 }
                                 // getting data from drag gesture and setting currentActiveItem
@@ -270,6 +276,15 @@ struct ChartView: View {
                             .padding()
                             
                             VStack(spacing: 10) {
+                                HStack{
+                                    Spacer()
+                                    
+                                    Toggle(isOn: $doseToggle) {
+                                        Text("Dose")
+                                    }
+                                    
+                                }
+                                
                                 HStack{
                                     Spacer()
                                     
