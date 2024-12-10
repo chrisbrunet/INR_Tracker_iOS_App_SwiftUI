@@ -15,7 +15,7 @@ struct ChartView: View {
     // variables from user interface
     @State var showNewView = false
     @State private var trToggle = false
-    @State private var avgToggle = false
+    @State private var avgToggle = false 
     @State private var minmaxToggle = false
     @State private var doseToggle = false
     @State private var currentTab = "All Time"
@@ -67,18 +67,17 @@ struct ChartView: View {
                                 endPoint: .bottom
                             )
                             
+                            Picker("", selection: $currentTab) {
+                                Text("All Time").tag("All Time")
+                                Text("1 Year").tag("1 Year")
+                                Text("90 Days").tag("90 Days")
+                            }
+                            .pickerStyle(.segmented)
+                            .padding()
+                            
                             VStack {
                                 VStack(alignment: .leading, spacing: 12){
-                                    HStack{
-                                        Picker("", selection: $currentTab) {
-                                            Text("All Time").tag("All Time")
-                                            Text("1 Year").tag("1 Year")
-                                            Text("90 Days").tag("90 Days")
-                                        }
-                                        .pickerStyle(.segmented)
-                                        .padding()
-                                    }
-                                                                        
+                                    
                                     Chart {
                                         ForEach(data) { dataPoint in
                                             
@@ -226,21 +225,6 @@ struct ChartView: View {
                                             "INR": .blue,
                                             "Dose": .orange
                                 ])
-//                                .chartYAxis {
-//                                    AxisMarks(position: .leading, values: Array(stride(from: 1, through: 4 , by: 1))){
-//                                        axis in
-//                                        AxisTick()
-//                                        AxisGridLine()
-//                                        AxisValueLabel("\(axis.index)", centered: false)
-//                                    }
-//                                    if doseToggle {
-//                                        AxisMarks(position: .trailing, values: Array(stride(from: 1, through: 4, by: 1))){
-//                                            axis in
-//                                            AxisTick()
-//                                            AxisValueLabel("\(axis.index)", centered: false)
-//                                        }
-//                                    }
-//                                }
                                 // getting data from drag gesture and setting currentActiveItem
                                 .chartOverlay(content: {proxy in
                                     GeometryReader{innerProxy in
@@ -271,16 +255,6 @@ struct ChartView: View {
                                             )
                                     }
                                 })
-                                // chart animation logic
-                                .onAppear {
-                                    for (index,_) in data.enumerated(){
-                                        DispatchQueue.main.asyncAfter(deadline: .now()){
-                                            withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
-                                                data[index].animate = true
-                                            }
-                                        }
-                                    }
-                                }
                             } // end vstack with chart and picker
                             .background{
                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -355,9 +329,11 @@ struct ChartView: View {
                     }
                 }
             }
-            .onChange(of: currentTab, perform: { newTab in
+            .onChange(of: currentTab) { oldTab, newTab in
+                print("Changing tab from \(oldTab) to \(newTab)")
                 updateChartData(for: newTab)
-            })
+                print("Updated chart data: \(chartData?.count ?? 0) items")
+            }
             .onAppear {
                 chartData = viewModel.chartData
                 currentTab = "All Time"
